@@ -1,0 +1,97 @@
+h1 {
+    font-size: 1.4rem;
+}
+    
+h2 {
+    font-size: 1.1rem;
+}
+    
+h3 {
+    font-size: 0.9rem;
+}
+    
+h4 {
+    font-size: 0.7rem;
+}
+
+#grid-pagina {
+    display: grid;
+    grid-template-areas:
+    "f-detaliiAutor f-detaliiAutor"
+    "f-deVanzare f-deVanzare"
+    "f-calendar f-tabel"
+    "f-anunturi f-anunturi"
+    "f-listaUtilizatori f-dateUtilizator"
+    "f-comanda f-comanda";
+}
+
+#detaliiAutor {
+    grid-area: f-detaliiAutor;
+    margin-bottom: 5px;
+    background-color: var(--background);
+}
+
+#pozaL {
+    display: block;
+    margin: 0 auto;
+}
+
+#deVanzare {
+    grid-area: f-deVanzare;
+    margin-top: 5px;
+    background-color: var(--background);
+}
+
+#calendar {
+    grid-area: f-calendar;
+    margin-top: 5px;
+    margin-right: 5px;
+    background-color: var(--background);
+}
+
+#tabel {
+    grid-area: f-tabel;
+    margin-top: 5px;
+    margin-left: 5px;
+    background-color: var(--background);
+}
+
+#anunturi {
+    grid-area: f-anunturi;
+    margin-top: 5px;
+    margin-left: 5px;
+    background-color: var(--background);
+}
+
+#listaUtilizatori {
+    grid-area: f-listaUtilizatori;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    background-color: var(--background);
+}
+
+#dateUtilizator {
+    grid-area: f-dateUtilizator;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    background-color: var(--background);
+}
+
+#comanda {
+    grid-area: f-comanda;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    background-color: var(--background);
+}
+
+#grid-pagina>section{
+    border: 1px solid var(--text);
+    padding: var(--text);
+}
+
+footer {
+    background-color: var(--background);
+}

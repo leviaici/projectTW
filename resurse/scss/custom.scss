@@ -1,0 +1,112 @@
+// tema 1
+$theme1-primary: #43655a;
+$theme1-secondary: #5c7c7b;
+$theme1-success: #8BC34A;
+$theme1-info: #03A9F4;
+$theme1-warning: #FFC107;
+$theme1-danger: #F44336;
+$theme1-bg: #dcdcdc;
+$theme1-color: #43655a;
+
+// tema 2
+$theme2-primary: #1b2535;
+$theme2-secondary: #264a59;
+$theme2-success: #4CAF50;
+$theme2-info: #00BCD4;
+$theme2-warning: #FF9800;
+$theme2-danger: #F44336;
+$theme2-bg: #7b9298;
+$theme2-color: #2b2b2b;
+
+$medium-screen: 700px;
+$large-screen: 1000px;
+
+// border radius
+$border-radius: 6px;
+$body-font-family: "Open Sans";
+
+$btn-color: $theme2-color;
+$btn-bg: $theme2-bg;
+
+$theme1: (
+        "primary": $theme1-primary,
+        "secondary": $theme1-secondary,
+        "success": $theme1-success,
+        "info": $theme1-info,
+        "warning": $theme1-warning,
+        "danger": $theme1-danger
+);
+        
+$theme2: (
+    "primary": $theme2-primary,
+    "secondary": $theme2-secondary,
+    "success": $theme2-success,
+    "info": $theme2-info,
+    "warning": $theme2-warning,
+    "danger": $theme2-danger
+);
+
+@use '../../node_modules/bootstrap/scss/bootstrap.scss' with (  
+    // dimensiune h1
+    $h1-font-size: 2rem,
+    $h2-font-size: 1.4rem,
+    $h3-font-size: 1.2rem,
+    $h4-font-size: 1rem,
+    $h5-font-size: 0.8rem,
+    $h6-font-size: 0.6rem,
+
+    // font
+
+    
+    $theme-colors: (
+        "color1": $theme1-primary,
+        "secondary": $theme1-secondary,
+        "success": $theme1-success,
+        "info": $theme1-info,
+        "warning": $theme1-warning,
+        "danger": $theme1-danger
+    ),
+            
+    $body-color: $theme1-color,
+    $body-bg: $theme1-bg,
+);
+
+body {
+    background-color: $theme1-bg;
+    color: $theme1-color;
+}
+    
+.navbar {
+    background-color: $theme1-primary;
+    color: $theme1-color;
+    padding: 10px 20px;
+    border-radius: $border-radius;
+    border: none;
+}
+    
+.navbar-toggler {
+    border: none;
+}
+    
+.btn {
+    color: $btn-color;
+    background-color: $btn-bg;
+    border-radius: $border-radius;
+    transition: all 0.3s ease-in-out;
+}
+
+@media (min-width: $medium-screen) {
+
+  .navbar {
+    padding: 10px 20px;
+    border-radius: $border-radius;
+  }
+}
+
+@media (min-width: $large-screen) {
+
+  .navbar {
+    padding: 20px 30px;
+    border-radius: $border-radius * 2;
+  }
+}

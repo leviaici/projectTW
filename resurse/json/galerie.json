@@ -1,0 +1,77 @@
+{
+	"cale_galerie":"resurse/imagini/galerie",
+	"imagini": [
+		{
+			"cale_imagine":"briose-frisca.png",
+			"nume":"Brioșe",
+			"descriere": "Descriere",
+			"timp":"09:00-23:00"
+		},
+		{
+			"cale_imagine":"clatite.png",
+			"nume":"Clătite cu dulceață",
+			"descriere": "Descriere",
+			"timp":"20:00-23:00"
+		},
+		{
+			"cale_imagine":"gogosi.png",
+			"nume":"Gogoși glazurate",
+			"descriere": "Descriere",
+			"timp":"09:00-23:00"
+		},
+		{
+			"cale_imagine":"tort-scortisoara.png",
+			"nume":"Tort cu scorțisoară",
+			"descriere": "Descriere",
+			"timp":"10:00-23:00"
+		},
+		{
+			"cale_imagine":"prajitura-ciocolata.png",
+			"nume":"Prăjitură cu ciocolată",
+			"descriere": "Descriere",
+			"timp":"15:00-23:00"
+		},
+		{
+			"cale_imagine":"tarta-afine.png",
+			"nume":"Tartă cu afine",
+			"descriere": "Descriere",
+			"timp":"14:00-23:00"
+		},
+		{
+			"cale_imagine":"tort-trandafiri.png",
+			"nume":"Tort special",
+			"descriere": "Descriere",
+			"timp":"08:00-23:00"
+		},
+		{
+			"cale_imagine":"tort-trandafiri.png",
+			"nume":"Tort special",
+			"descriere": "Descriere",
+			"timp":"08:00-23:00"
+		},
+		{
+			"cale_imagine":"tort-trandafiri.png",
+			"nume":"Tort special",
+			"descriere": "Descriere",
+			"timp":"08:00-23:00"
+		},
+		{
+			"cale_imagine":"tort-trandafiri.png",
+			"nume":"Tort special",
+			"descriere": "Descriere",
+			"timp":"08:00-23:00"
+		},
+		{
+			"cale_imagine":"tort-trandafiri.png",
+			"nume":"Tort special",
+			"descriere": "Descriere",
+			"timp":"08:00-23:00"
+		},
+		{
+			"cale_imagine":"tort-trandafiri.png",
+			"nume":"Tort special",
+			"descriere": "Descriere",
+			"timp":"08:00-23:00"
+		}
+	]
+}

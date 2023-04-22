@@ -1,0 +1,68 @@
+caption{
+    caption-side: bottom;
+}
+
+tr:hover {
+    box-shadow: 0 0 10px rgba(108, 116, 123, 0.671);
+    opacity: 1;
+    transition: opacity box-shadow 0.5s ease-in-out;
+  }
+
+ thead, tbody, tfoot {
+  border: 1px solid var(--highlight);
+}
+
+thead {
+    border-bottom-width: 2px;
+}
+  
+tfoot {
+    border-top-width: 2px;
+}
+
+td {
+    border: 1px solid;
+    text-align: center;
+    padding: 2px;
+    position: relative;
+}
+  
+td:nth-child(even) {
+    border-right: none;
+}
+  
+td:nth-child(odd) {
+    border-left: none;
+}
+  
+td:nth-child(even):before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -1px;
+    height: 100%;
+    width: 1px;
+    background-color: goldenrod;
+}
+  
+td:nth-child(odd):after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -1px;
+    height: 100%;
+    width: 1px;
+    background-color: rgba(2, 246, 92, 0.671);
+}
+
+tfoot td {
+    border: 5px solid;
+}
+
+thead td {
+    border: 5px solid;
+}
+
+#tabelul {
+    overflow-x: scroll;
+}

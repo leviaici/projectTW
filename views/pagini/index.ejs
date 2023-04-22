@@ -1,0 +1,237 @@
+<meta charset = "UTF-8">
+<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+<meta name = "keywords" content = "magazin,fotografii,fotografie,poze,imagini,imagine,vanzare,apusuri,rasarituri,peisaje,portrete,stoc,camera,Canon,Tamron,Godox">
+<meta name = "description" content = "Magazin online de fotografii digitale">
+<meta name = "author" content = "Adrian-George Levențiu">
+
+<link rel = "apple-touch-icon" sizes = "180x180" href = "../resurse/imagini/apple-touch-icon.png">
+<link rel = "icon" type="image/png" sizes = "32x32" href = "../resurse/imagini/favicon-32x32.png">
+<link rel = "icon" type="image/png" sizes = "16x16" href = "../resurse/imagini/favicon-16x16.png">
+<link rel = "manifest" href = "../resurse/imagini/site.webmanifest">
+<link rel = "shortcut icon" href = "../resurse/imagini/favicon.ico">
+<meta name = "msapplication-TileColor" content = "#da532c">
+<meta name = "msapplication-config" content = "../resurse/imagini/browserconfig.xml">
+<meta name = "theme-color" content = "#ffffff">
+
+
+<link rel = "stylesheet" href = "../resurse/css/customizare_bootstrap.css" type = "text/css"/>
+<link rel = "stylesheet" href = "../resurse/css/general.css">
+<link rel = "stylesheet" href = "../resurse/css/general1000.css" type = "text/css" media = "screen and (max-width:1000px)">
+<link rel = "stylesheet" href = "../resurse/css/general700.css" type = "text/css" media = "screen and (max-width:700px)">
+<link rel = "stylesheet" href = "../resurse/css/galerie-statica-js.css" type = "text/css">
+<link rel = "stylesheet" href = "../resurse/css/galerie-statica-1000.css" type = "text/css" media = "screen and (max-width:1000px)">
+<link rel = "stylesheet" href = "../resurse/css/galerie-statica-500.css" type = "text/css" media = "screen and (max-width:700px)">
+<link rel = "stylesheet" href = "../resurse/css/tabel.css" type = "text/css" >
+<link rel = "stylesheet" href = "../resurse/css/nav.css">
+<link rel = "stylesheet" href = "../resurse/css/navmic2.css" media = "screen and (max-width:700px)">
+<link rel = "stylesheet" href = "../resurse/css/triunghi.css" type = "text/css" >
+<link rel = "stylesheet" href = "../resurse/css/print.css" type = "text/css" >
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sono:wght@500&display=swap" rel="stylesheet"> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+
+<!DOCTYPE html>
+<html  lang="ro">
+    <head>
+        <meta name = "keywords" content = "magazin,fotografii,fotografie,poze,imagini,imagine,vanzare,apusuri,rasarituri,peisaje,portrete,stoc,camera,Canon,Tamron,Godox">
+        <meta name = "description" content = "Magazin online de fotografii digitale">
+        <title>Levi's shop</title>
+        <%- include("../fragmente/head.ejs")  %>
+    </head>
+    <body>
+    <%- include("../fragmente/header.ejs")  %>
+    <main>
+        <div id = "grid-pagina">
+            <section id = "detaliiAutor">
+                <h2>Detalii autor</h2>
+                <p>Aici vor fi prezente câteva detalii despre mine (autorul fotografiilor) și aparatura pe care o folosesc</p>
+                <section id = "despreMine">
+                    <h3>Despre mine</h3>
+                    <p>Salut! Numele meu este <b>Adrian-George Levențiu</b>, însă prietenii îmi spun <i><b>Levi</b></i> și așa am început să mă semnez inclusiv pe fotografiile mele.</p>
+                    <figure>
+                        <img src = "resurse/ico/DSC06542.jpg" alt = "pozaLuna" id = "pozaL"><br>
+                        <figcaption>Aceasta este poza mea preferată cu luna, prezentă de altfel și în logo-ul site-ului.</figcaption>
+                    </figure>
+                    <ol>
+                        <li>Am 20 de ani și sunt născut și crescut în București.</li>
+                        <li>
+                            Sunt student la Facultatea de Matematică și Informatică din cadrul Universității din București.
+                            <ul>
+                                <li>Urmez programul de licență Calculatoare și Tehnlogia Informației;</li>
+                                <li>Da, urmez acest program de licență pentru că nu am intrat la Informatică Buget;</li>
+                                <li><i>Nicio șansă să mă fi văzut la <b>Universitatea Politehnica din București</b>;</i></li>
+                                <li>Uneori mă gândeam să fac <i>abandon</i> sau să mă duc la <b>ASE</b> dar am realizat că merită să mă chinui pentru ceea ce învăț în cadrul acestei facultăți și pentru persoanele pe care le-am cunoscut aici;</li>
+                            </ul>
+                        </li>
+                        <li>Fac fotografii din 2017, însă în 2018 mi-am achiziționat prima cameră foto semi profesională, un <b>Sony A6000</b>.</li>
+                        <li>Am câștigat câteva concursuri de fotografie, unul inclusiv prin intermediul facultății, iar poza câștigătoare a fost expusă pe holul unui muzeu din Olanda sau chiar și de la cei de la Canon care m-au postat atât pe Facebook, cât și în calendarul lor lunar.</li>
+                    </ol>
+                    <strong><i>Atenție! Nu am nimic cu Politehnica dar nu vreau să fiu asociat cu acea facultate în vreun fel.</i></strong><br>
+                    <button class="btn btn-primary">Nu suport Politehnica</button>
+                    <video poster="./resurse/imagini/ASMI.jpg" controls preload="metadata">
+                        <source src="./resurse/video/video2.mp4" type="video/mp4">
+                        <source src="./resurse/video/video2.avi" type="video/avi">
+                        <track default src="../../resurse/vtt/romana.vtt" kind="captions" srclang="ro" label="romana"/>
+                        <track src="../../resurse/vtt/english.vtt" kind="captions" srclang="en" label="engleza"/>
+                    </video>
+                </section>
+                <section id = "aparaturaFolosita">
+                    <h3>Aparatura folosită <span class="fas fa-virus fa-fw fa-spin"></span></h3>
+                    <ol>
+                        <li>Body: <a href = "https://www.canon.ro/for_home/product_finder/cameras/digital_slr/eos_6d/specification.html" target="_blank">Canon EOS 6D MK 1;</a></li>
+                        <li>
+                            Obiective:
+                            <ul>
+                                <li><a href = "https://www.tamron.eu/p/502cb513-2c32-46c3-84c4-0c41eaf72a50/sp-24-70mm-f28-di-vc-usd-g2" target="_blank">Tamron SP 24-70mm f2.8 Di USD;</a></li>
+                                <li><a href = "https://www.canon.ro/lenses/ef-50mm-f-1-8-stm-lens/" target="_blank">Canon EF 50mm f1.8 STM;</a></li>
+                            </ul>
+                        </li>
+                        <li>Blitz: <a href = "https://www.godox.com/static/upload/file/20220119/1642572923569086.pdf" target="_blank">Godox TT685IIC Thinklite;</a></li>
+                        <li>Acumulatori: Canon LP-E6</li>
+                    </ol>
+                    <p>Video explicativ despre camera folosită în limba română sau în limba engleză.</p>
+                    <div class = "ifr">
+                        <iframe name="ifr-video" width="560" height="315" src="https://www.youtube.com/embed/8k2FpqYAftg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class = "taburi-iframe">
+                            <a href="https://www.youtube.com/embed/8k2FpqYAftg" target = "ifr-video" >Limba română</a>
+                            <a href="https://www.youtube.com/embed/-ICU_IY-mTo" target = "ifr-video">Limba engleză</a>
+                        </div>
+                    </div><br><br><br><br>
+                </section>
+            </section>
+            <section id = "comanda">
+                <h2>Cum plasăm o comandă?</h2>
+                <p><strong>Pasul I.</strong></p>
+                <details>
+                    <summary>Alegi produsul dorit.</summary>
+                    <p>Cauți produsul dorit în categoriile prezentate mai devreme (apusuri/răsărituri, peisaje sau portrete).</p>
+                </details>
+                <p><strong>Pasul II.</strong></p>
+                <details>
+                    <summary>Adaugi în coș produsul/produsele dorite.</summary>
+                    <p>După ce ai selectat produsul dorit, adaugi în coșul de cumpărături produsul dorit cu ajutorul butonului ”Adaugă în coș”.</p>
+                </details>
+                <p><strong>Pasul III.</strong></p>
+                <details>
+                    <summary>Te duci la ”Coșul meu”.</summary>
+                    <p>Sus, vei găsi secțiunea ”Coșul meu”. Apasă pe buton.</p>
+                </details>
+                <p><strong>Pasul IV.</strong></p>
+                <details> 
+                    <summary>Verifici produsele și poți iniția procesul de lansare a comenzii.</summary>
+                    <p>După ce ai verificat dacă sunt produsele dorite, apeși pe butonul de lansare comandă pentru a iniția procesul de lansare a comenzii. După completarea datelor necesare, comanda va fi procesată și vei primi în cel mai scurt timp produsele comandate.</p>
+                </details>
+            </section>
+            <section id = "calendar">
+                <p>Aici va fi calendarul.</p><hr><hr><hr><hr>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima sequi qui debitis! Quos doloremque rerum hic dignissimos porro sint ipsa, voluptatum provident enim? Dolorum optio modi, dolor officia assumenda praesentium!</p><br>
+            </section>
+            <section id = "deVanzare">
+                <h2>De vânzare</h2>
+                <p>Momentan, avem doar 3 categorii de fotografii puse la vânzare:</p>
+                <ul>
+                    <li><a href = "#apusuriRasarituri">Apusuri/răsărituri</a></li>
+                    <li><a href = "#peisaje">Peisaje</a></li>
+                    <li><a href = "#portrete">Portrete</a></li>
+                </ul>
+                <section id = "apusuriRasarituri">
+                    <h2>Apusuri/răsărituri</h2>
+                    <p>Aici vor fi postate apusurile/răsăriturile.</p>
+                    <div id="grid-galerie">
+                        <% let counter = 0; %>
+                        <% for (let imag of locals.imagini) {
+                            d=new Date()
+                            var v_timp=["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+                            let timp = imag.timp.split("-");
+                            if(imag.timp && (timp[0] <= v_timp[d.getHours()] && timp[1] > v_timp[d.getHours()]) && counter < 10) {
+                                %>
+                                <figure>
+                                    <picture>
+                                        <source srcset="<%- imag.fisier_mic %>" media="(max-width:700px)"/>
+                                        <source srcset="<%- imag.fisier_mediu %>" media="(max-width:1000px)"/>
+                                        <img src="<%- imag.cale_imagine %>" alt="imagine">
+                                    </picture>
+                                    <figcaption class="caption-style"><%- imag.nume %></figcaption>
+                                </figure>
+                            <% } 
+                                counter++;
+                                if (counter >= 10) {   
+                                    break;
+                                } 
+                            }  %>
+                    </div>
+                </section>
+                <section id = "peisaje">
+                    <h2>Peisaje</h2>
+                    <p>Aici vor fi postate peisajele.</p>
+                </section>
+                <section id = "portrete">
+                    <h2>Portrete</h2>
+                    <p>Aici vor fi postate portretele.</p>
+                </section>
+            </section>
+            <section id = "tabel">
+                <table id = "tabelul">
+                    <caption>Program</caption>
+                    <thead>
+                        <tr>
+                            <th>Categorie</th>
+                            <th>Luni</th>
+                            <th>Marți</th>
+                            <th>Miercuri</th>
+                            <th>Joi</th>
+                            <th>Vineri</th>
+                            <th>Sâmbătă</th>
+                            <th>Duminică</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Site</td>
+                            <td colspan = "7">Non-stop</td>
+                        </tr>
+                        <tr>
+                            <td>Contact telefonic</td>
+                            <td colspan = "5">10:00-18:00</td>
+                            <td colspan = "2">Închis</td>
+                        </tr>
+                        <tr>
+                            <td>Contact e-mail</td>
+                            <td colspan = "5">10:00-18:00</td>
+                            <td colspan = "2">Închis</td>
+                        </tr>
+                        <tr>
+                            <td>Locație</td>
+                            <td colspan = "4">10:00-18:00</td>
+                            <td>10:00-16:00</td>
+                            <td colspan = "2">12:00-15:00</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan = "8">Programul poate varia în cazul sărbătorilor legale. Vezi la <a href = "#anunturi">anunțuri</a>.</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+            <section id = "anunturi">
+                <p>Aici vor fi anunturile.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima sequi qui debitis! Quos doloremque rerum hic dignissimos porro sint ipsa, voluptatum provident enim? Dolorum optio modi, dolor officia assumenda praesentium!</p><br>
+            </section>
+            <section id = "listaUtilizatori">
+                <p>Aici va fi lista de utilizatori.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima sequi qui debitis! Quos doloremque rerum hic dignissimos porro sint ipsa, voluptatum provident enim? Dolorum optio modi, dolor officia assumenda praesentium!</p><br>
+            </section>
+            <section id = "dateUtilizator">
+                <p>Aici vor fi datele de utilizator.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima sequi qui debitis! Quos doloremque rerum hic dignissimos porro sint ipsa, voluptatum provident enim? Dolorum optio modi, dolor officia assumenda praesentium!</p><br>
+            </section>
+        </div>
+    </main>
+
+    <%- include("../fragmente/footer.ejs")  %>
+
+    </body>
+</html>

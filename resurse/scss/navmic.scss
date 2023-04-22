@@ -1,0 +1,122 @@
+#hamburger{
+    display:block;
+}
+
+ul {
+    &.menu {
+        display:none;
+        position:absolute;
+        width:103%;
+    }
+}
+
+nav {
+    ul {
+        &.menu {
+            li {
+                width:100%;
+            }
+
+            >li {
+                ul {
+                    position:absolute;
+                    width:100%;
+                    z-index:200;
+                    transform:scale(1,1);
+                }
+
+                &:hover {
+                    >ul {
+                        position:absolute;
+                    }
+                }
+            }
+        }
+    }
+}
+
+ul {
+    &.submenu {
+        >li {
+            >a {
+                &:hover {
+                    transition:all 0.4s linear;
+                }
+            }
+        }
+    }
+
+    &.menu {
+        >li {
+            >a {
+                &:hover {
+                    &,ul {
+                        &.menu {
+                            >li {
+                                div {
+                                    &:hover {
+                                        transition:all 0.4s linear;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &::before {
+                    &,ul {
+                        &.menu {
+                            >li {
+                                div {
+                                    &::before {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#main_page{
+    display: none;
+}
+
+#ch-menu {
+    &:checked {
+        &+ul {
+            &.menu {
+                display: block;
+                z-index: 2;
+                position: relative;
+                transform-origin: 0 0;
+                animation-name: aparitie_hamburger;
+                animation-iteration-count:1;
+                animation-duration:0.6s;
+                animation-fill-mode:forwards;
+                animation-timing-function:linear;
+                transition: all 2s linear;
+                >li {
+                    ul {
+                        >* {
+                            position:relative;
+                            z-index:200;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes aparitie_meniu{
+    0%{
+        transform: scale(0, 0);
+    }
+    100%{
+        transform: scale(1, 1);
+    }
+}

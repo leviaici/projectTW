@@ -1,0 +1,320 @@
+body {
+    --background: #DCDCDC;
+    --text: #2b2b2b;
+    --border: #9ea9b1;
+    --griInchis: #7b9298;
+    --scris: #5c7c7b;
+    --highlight: #43655a;
+    background-color: var(--griInchis);
+    color: var(--text);
+    font-family: 'Sono', sans-serif;
+}
+
+#titlu::before{
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: bottom;
+    transform: rotateX(180deg) skew(-45deg); 
+    line-height: 0.865em;
+    background: linear-gradient(0deg, #43655a 0, transparent 70%);
+    -webkit-background-clip: text;
+    color: transparent;
+    opacity: 0.8;
+}
+
+#im_mask[src=""] {
+    border: none !important;
+    border-style: none !important;
+    border-width: 0 !important;
+    border-color: #DCDCDC !important;
+}
+
+#im_mask{
+   margin-top: -36px;
+   outline:none;
+   border:none;
+    left:0;
+    background-color: #DCDCDC;
+    --imagine-masca:repeating-radial-gradient(circle at 50% 0%, white, transparent, white 4%);
+    --dimensiune-masca-normala:100% 100%;
+    
+    --dimensiune-masca-hover:200% 200%;
+    --pozitie-masca:0 0;
+    --pozitie-masca-hover:100% 100%;
+
+    mask-image: var(--imagine-masca);
+    -webkit-mask-image:var(--imagine-masca) ;
+    mask-size: var(--dimensiune-masca-normala);
+    --webkit-mask-size: var(--dimensiune-masca-normala);
+    transition:all 5s linear;
+    mask-position:var(--pozitie-masca);
+    --webkit-mask-position:var(--pozitie-masca);
+
+}
+
+#im_mask:hover{
+    mask-size: var(--dimensiune-masca-hover);
+    --webkit-mask-size: var(--dimensiune-masca-hover);
+    /*
+    mask-position:var(--pozitie-masca-hover);
+    --webkit-mask-position:var(--pozitie-masca-hover);*/
+}
+
+header {
+    background-color: var(--background);
+}
+
+p {
+    color: var(--scris);
+}
+
+h1 {
+    color: var(--highlight);
+    font-size: 2rem;
+}
+
+h2 {
+    color: var(--highlight);
+    font-size: 1.4rem;
+}
+
+h3 {
+    color: var(--scris);
+    font-size: 1.2rem;
+}
+
+h4{
+    color: var(--scris);
+    font-size: 1rem;
+}
+
+b {
+    color: var(--highlight);
+}
+
+ul {
+    color: var(--scris);
+}
+
+li {
+    color: var(--highlight);
+}
+
+summary {
+    color: var(--highlight);
+}
+
+figcaption {
+    color: var(--highlight);
+}
+
+s {
+    color: var(--highlight);
+}
+
+#grid-pagina {
+    display: grid;
+    grid-template-areas: "f-detaliiAutor f-detaliiAutor f-detaliiAutor f-detaliiAutor"
+    "f-deVanzare f-deVanzare f-deVanzare f-deVanzare" 
+    "f-calendar f-tabel f-tabel f-anunturi"
+    "f-listaUtilizatori f-dateUtilizator f-comanda f-comanda";
+}
+
+a:hover, a:visited, a:link, a:active {
+    text-decoration: none;
+}
+
+#detaliiAutor {
+    grid-area: f-detaliiAutor;
+    margin-bottom: 10px;
+    background-color: var(--background);
+}
+
+#pozaL {
+    display: block;
+    margin: 0 auto;
+}
+
+#deVanzare {
+    grid-area: f-deVanzare;
+    margin-top: 10px;
+    background-color: var(--background);
+}
+
+#calendar {
+    grid-area: f-calendar;
+    margin-top: 10px;
+    margin-right: 10px;
+    background-color: var(--background);
+}
+
+#calendar hr {
+    color: var(--highlight);
+    border-radius: 10px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    width: 50%;
+    margin-left: 25%;
+}
+  
+#calendar hr:last-of-type, #calendar hr:first-of-type {
+    width: 49.5%;
+    margin-left: 25.25%;
+}
+
+#tabel {
+    grid-area: f-tabel;
+    margin-top: 10px;
+    margin-left: 10px;
+    background-color: var(--background);
+}
+
+#anunturi {
+    grid-area: f-anunturi;
+    margin-top: 10px;
+    margin-left: 10px;
+    background-color: var(--background);
+}
+
+#listaUtilizatori {
+    grid-area: f-listaUtilizatori;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-color: var(--background);
+}
+
+#dateUtilizator {
+    grid-area: f-dateUtilizator;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    background-color: var(--background);
+}
+
+#comanda {
+    grid-area: f-comanda;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    background-color: var(--background);
+}
+
+#grid-pagina>section {
+    border: 1px solid var(--text);
+    padding: var(--text);
+}
+
+footer {
+    background-color: var(--background);
+}
+
+.ifr {
+    height: 55%;
+    width: 80%;
+    position: relative;
+}
+.ifr iframe {
+    display: block;
+    width: 90%;
+    height: 500px;
+    border: 5px solid var(--highlight);
+}
+
+.taburi-iframe {
+    position: absolute;
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+}
+
+.taburi-iframe a {
+    padding: 5px;
+    text-decoration: none;
+    margin-bottom: 5px;
+    color: var(--text);
+    text-align: center;
+    border: 10px double var(--highlight);
+    border-spacing: 10px;
+    background-color: var(--scris);
+}
+
+.taburi-iframe a:hover {
+    transform: translateY(10px);
+    background-color: var(--griInchis);
+}
+
+#tabel td, #tabel th{
+    color: var(--highlight);
+    border:1px solid var(--scris);
+}
+
+#tabelul {
+    text-align: center;
+}
+
+video{
+    width: 40%;
+    min-width: 400px;
+    max-width: 640px;
+    padding: 10px;
+}
+video::poster {
+    width: 40%;
+    min-width: 400px;
+    max-width: 640px;
+    padding: 10px;
+}
+::cue{
+    background-color: rgba(255,255,255,0.3);
+    color: var(--text);
+    font-size: 1em;
+}
+
+a:visited{
+    color: var(--culoare_border_ms);
+}
+
+.menu a[href] {
+    color: #ffff !important;
+}
+
+.menu a[href]:hover{
+    color: var(--scris) !important;
+}
+
+a[href^="https"]::before{
+    content: "⮳" !important;
+    font-size: 1.5em !important; 
+}
+
+a[href^="https"]:hover::before {
+    color: var(--scris) !important;
+} 
+
+.taburi-iframe a::before{
+    content:"" !important;
+}
+
+
+a[href]{
+    color: var(--culoare_border_ms) !important;
+}
+
+a[href^="https"]{
+    background-image: radial-gradient(circle at center, var(--scris) 0%, var(--scris) 40%, transparent 80%, transparent 100%) !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 0% !important;
+    transition: background-size 1.5s ease-in-out !important; 
+}
+
+a[href^="https"]:hover {
+    background-size: 100% !important; 
+}
+
+a:active {
+    border: 2px solid black !important;
+}
