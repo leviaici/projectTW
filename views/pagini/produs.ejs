@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html  lang="ro">
+    <head>
+        <meta name = "keywords" content = "magazin,fotografii,fotografie,poze,imagini,imagine,vanzare,apusuri,rasarituri,peisaje,portrete,stoc,camera,Canon,Tamron,Godox">
+        <meta name = "description" content = "Magazin online de fotografii digitale">
+        <link rel = "stylesheet" href = "../resurse/css/customizare_bootstrap.css" type = "text/css"/>
+        <link rel = "stylesheet" href = "../resurse/css/general.css">
+        <link rel = "stylesheet" href = "../resurse/css/general1000.css" type = "text/css" media = "screen and (max-width:1000px)">
+        <link rel = "stylesheet" href = "../resurse/css/general700.css" type = "text/css" media = "screen and (max-width:700px)">
+        <link rel = "stylesheet" href = "../resurse/css/galerie-statica-js.css" type = "text/css">
+        <link rel = "stylesheet" href = "../resurse/css/galerie-statica-500.css" type = "text/css" media = "screen and (max-width:700px)">
+        <link rel = "stylesheet" href = "../resurse/css/galerie-statica-1000.css" type = "text/css" media = "screen and (max-width:1000px)">
+        <link rel = "stylesheet" href = "../resurse/css/tabel.css" type = "text/css" >
+        <link rel = "stylesheet" href = "../resurse/css/nav.css">
+        <link rel = "stylesheet" href = "../resurse/css/navmic2.css" media = "screen and (max-width:700px)">
+        <link rel = "stylesheet" href = "../resurse/css/triunghi.css" type = "text/css" >
+        <link rel = "stylesheet" href = "../resurse/css/print.css" type = "text/css" >
+        <link rel="stylesheet" href="../resurse/css/produs.css" type="text/css" />
+        <title>Levi's shop</title>
+        <%- include("../fragmente/head") %>
+    </head>
+    <body>
+    <%- include("../fragmente/header") %>
+
+    <main>
+        <section>
+            <h2>Pagină produs</h2>
+                <article id="art-produs">
+                    <h3><span class="nume"><%- locals.prod.nume %></span></h3>
+                    <p>Pret: <span class="pret"><%- locals.prod.pret %> </span></p>
+                    <p>Descriere: <span class="descriere"><%- locals.prod.descriere %> </span></p>
+                    <p>Subiecte: <span class="subiecte"><%- locals.prod.subiecte %> </span></p>
+                    <p>Distanta focala: <span class="distanta_focala"><%- locals.prod.distanta_focala %>mm </span></p>
+                    <p>Locatie: <span class="locatie"><%- locals.prod.locatie %> </span></p>
+                    <p>Categorie: <span class="categorie"><%- locals.prod.categorie %> </span></p>
+                    <p>Family friendly: <span class="family_friendly"><%- locals.prod.family_friendly %> </span></p>
+                    <p>Data creare: <span class="data_creare"><%- locals.prod.data_creare %> </span></p>
+                    <figure class="imag-produs">
+                        <img  src="/resurse/imagini/produse/<%- locals.prod.imagine %>" alt="[imagine <%- locals.prod.nume %>]" />
+                    </figure>    
+                </article>
+            
+        </section>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+    </body>
+</html>
