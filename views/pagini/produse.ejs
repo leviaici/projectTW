@@ -68,13 +68,30 @@
             <div class="grid-produse">
                 <% for( let prod of locals.produse) { %>
                     <article class="produs" >
-                        <h3 class="nume">Nume: <a href="/produs/<%-prod.id %>" ><span class="val-nume"><%- prod.nume%></span></a></h3>
+                        <h3 class="nume">Nume: <a href="/produs/<%-prod.id %>" ><span class="val-nume"><%- prod.nume%>&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;Categorie: <%- prod.categorie%></span></a></h3>
                         <div class="info-prod">
                             <p class="pret">Pret: <span class="val-pret"><%- prod.pret%></span></p>
                             <p class="subiecte">Subiecte: <span class="val-subiecte"><%- prod.subiecte%></span></p>
                             <p class="gramaj">Distanta focala: <span class="val-gramaj"><%- prod.distanta_focala%>mm</span></p>
                         </div>
-                        <p class="categorie">Categorie: <span class="val-categorie"><%- prod.categorie%></span></p>
+                        
+                        <time id="dataCreare" datetime="<%- prod.data_creare%>">Data creare: </time>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                        $(document).ready(function() {
+                            var dataCreareElement = $("#dataCreare");
+                            var dataCreareValue = dataCreareElement.attr("datetime");
+
+                            if (dataCreareElement.text().trim() === "Data creare:") {
+                            var dataCreare = new Date(dataCreareValue);
+                            var options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+                            var formattedDataCreare = dataCreare.toLocaleDateString('ro-RO', options);
+
+                            dataCreareElement.text("Data creare: " + formattedDataCreare);
+                            }
+                        });
+                        </script>
+                        <p class="categorie">Family friendly: <span class="val-categorie"><%- prod.family_friendly%></span></p>
                         <figure>
                             <a href="/produs/<%-prod.id %>" ><img src="/resurse/imagini/produse/<%- prod.imagine %>" style="width:50%;height:auto;" alt="[imagine <%- prod.nume %>]" /></a>
                         </figure>

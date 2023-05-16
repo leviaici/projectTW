@@ -62,7 +62,7 @@ for (let folder of vectorFoldere){
 }
 
 function compileazaScss(caleScss, caleCss){
-    console.log("cale:",caleCss);
+    // console.log("cale:",caleCss);
     if(!caleCss){
         // let vectorCale=caleScss.split("/")
         // let numeFisExt=vectorCale[vectorCale.length-1];
@@ -90,7 +90,7 @@ function compileazaScss(caleScss, caleCss){
         
     rez=sass.compile(caleScss, {"sourceMap":true});
     fs.writeFileSync(caleCss,rez.css)
-    console.log("Compilare SCSS",rez);
+    // console.log("Compilare SCSS",rez);
 }
 
 //compileazaScss("a.scss");
