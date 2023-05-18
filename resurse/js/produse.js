@@ -26,6 +26,8 @@ window.addEventListener("load", function() {
         let val_pret=document.getElementById("inp-pret").value;
 
         let val_categorie=document.getElementById("inp-categorie").value;
+
+        let val_sfw=document.getElementById("inp-sfw").value;
         
         var produse=document.getElementsByClassName("produs");
         for(let prod of produse) {
@@ -40,9 +42,18 @@ window.addEventListener("load", function() {
             let cond3=(pret>=val_pret);
 
             let categorie=prod.getElementsByClassName("val-categorie")[0].innerHTML;
-            let cond4=(val_categorie=="toate" || val_categorie==categorie);
+            let cond4=(val_categorie=="toate" || val_categorie==categorie || val_categorie=="");
+
+            let sfw=prod.getElementsByClassName("val-sfw")[0].innerHTML;
+
+            if(val_sfw == "da")
+                val_sfw="true";
+            else if(val_sfw=="nu")
+                val_sfw="false";
+
+            let cond5=(val_sfw=="toate" || val_sfw==sfw);
             
-            if(cond1 && cond2 && cond3 && cond4) {
+            if(cond1 && cond2 && cond3 && cond4 && cond5) {
                 prod.style.display="block";
             }
         }
@@ -54,6 +65,7 @@ window.addEventListener("load", function() {
         
         document.getElementById("inp-pret").value=document.getElementById("inp-pret").min;
         document.getElementById("inp-categorie").value="toate";
+        document.getElementById("inp-sfw").value="toate";
         document.getElementById("i_rad4").checked=true;
         var produse=document.getElementsByClassName("produs");
         document.getElementById("infoRange").innerHTML="(0)";

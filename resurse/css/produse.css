@@ -17,7 +17,6 @@ main{
 }
 
 .grid-produse .produs h3{
-    background-color: var(--culoare-roz-inchis);
     text-align: center;
     margin-top: 0;
     padding-top: 0.5rem;
@@ -38,16 +37,21 @@ main{
 }
 .grid-produse .produs .info-prod{
     display:flex;
-    background-color: var(--cl-marcare);
+    /* background-color: #DCDCDC; */
 }
 .grid-produse .produs .info-prod p, h3.grid-produse{
+    color: #DCDCDC;
     width:30%;
     text-align:center;
     font-weight:bold;
 }
 
-.grid-produse .produs p.categorie, h3.grid-produse{
+h3.ceva {
+    color: #DCDCDC;
+}
 
+.grid-produse .produs p.categorie, h3.grid-produse, p.grid-produse, p.pret{
+    color: #DCDCDC;
     text-align:center;
     font-weight:bold;
 }
@@ -61,9 +65,10 @@ main{
 .produs{
     position: relative;
 }
-.selecteaza-cos{
+
+/* .selecteaza-cos{
     display: inline-block;
-    background-color: var(--culoare-mov);
+    background-color: #9ea9b1;
     position:absolute;
     bottom:0.5rem;
     right:0.5rem;
@@ -74,7 +79,7 @@ main{
 }
 
 .selecteaza-cos:hover{
-    background-color: var(--cl-marcare);
+    background-color: #DCDCDC;
     
-    border:1px solid  var(--culoare-mov);
-}
+    border:1px solid  #2b2b2b;
+} */
