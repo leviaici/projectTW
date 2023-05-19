@@ -27,6 +27,12 @@ window.addEventListener("load", function() {
 
         let val_categorie=document.getElementById("inp-categorie").value;
 
+        var val_categoriem = document.getElementById("inp-categoriem");
+        var selectedOptions = Array.from(val_categoriem.selectedOptions);
+        var selectedValuesCategoriem = selectedOptions.map(option => option.value);
+
+        // alert(selectedValuesCategoriem[0]);
+
         let val_sfw=document.getElementById("inp-sfw").value;
         
         var produse=document.getElementsByClassName("produs");
@@ -52,8 +58,21 @@ window.addEventListener("load", function() {
                 val_sfw="false";
 
             let cond5=(val_sfw=="toate" || val_sfw==sfw);
+
+            let categoriem=prod.getElementsByClassName("val-categorie")[0].innerHTML;
+            let cond6=false;
+            if(selectedValuesCategoriem[0]=="toate")
+                cond6=true;
+            else {
+                for(var i=0;i<selectedValuesCategoriem.length;i++) {
+                    if(selectedValuesCategoriem[i]==categoriem) {
+                        cond6=true;
+                        break;
+                    }
+                }
+            }
             
-            if(cond1 && cond2 && cond3 && cond4 && cond5) {
+            if(cond1 && cond2 && cond3 && cond4 && cond5 && cond6) {
                 prod.style.display="block";
             }
         }
@@ -65,6 +84,7 @@ window.addEventListener("load", function() {
         
         document.getElementById("inp-pret").value=document.getElementById("inp-pret").min;
         document.getElementById("inp-categorie").value="toate";
+        document.getElementById("inp-categoriem").value="toate";
         document.getElementById("inp-sfw").value="toate";
         document.getElementById("i_rad4").checked=true;
         var produse=document.getElementsByClassName("produs");
@@ -126,4 +146,16 @@ window.addEventListener("load", function() {
             }, 1000)
         }
     }
+
+    document.getElementById("btn-inp-categoriem").addEventListener("click", function() {
+        var categoriem = document.getElementById("inp-categoriem");
+        var butoncategoriem=document.getElementById("btn-inp-categoriem");
+        if (categoriem.style.display === "none") {
+            categoriem.style.display = "block";
+            butoncategoriem.innerHTML="Ascunde";
+        } else {
+            categoriem.style.display = "none";
+            butoncategoriem.innerHTML="Arata";
+        }
+      });
 });

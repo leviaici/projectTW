@@ -41,16 +41,22 @@
                 <input id="i_rad4" checked name="gr_rad" value="toate" type="radio"/>
             </label>
         </div>
-
-
         <label> Pret minim: <input type="range" id="inp-pret" value="0" min="0"  max="70"> <span id="infoRange">(0)</span></label><br><br>
-        <label for="inp-categorie">Categorie:</label>
+        <label for="inp-categorie">Categorie simpla:</label>
         <input list="inp-categorielist" id="inp-categorie" name="inp-categorie" value="toate"><br><br>
         <datalist id="inp-categorielist">
             <% for (let opt of locals.optiuni) { %>
                 <option value="<%- opt.unnest %>"><%- opt.unnest %> </option>
             <% } %>
         </datalist>
+        <label for="inp-categoriem">Categorie multipla:</label>
+        <button class="btn btn-primary" id="btn-inp-categoriem">Arata</button>
+        <select list="inp-categorielistm" id="inp-categoriem" name="inp-categoriem" value="toate" multiple>
+            <option value="toate">toate</option>
+            <% for (let opt of locals.optiuni) { %>
+                <option value="<%- opt.unnest %>"><%- opt.unnest %> </option>
+            <% } %>
+        </select><br><br>
         <label>Family friendly:
             <select id="inp-sfw">
                 <option id="sel-toate" selected value="toate">toate</option>
@@ -63,9 +69,7 @@
         <button class="btn btn-primary" id="resetare">Reseteaza</button><br/><br>
         <button class="btn btn-primary" id="sortCrescNume">Sorteaza crescator dupa pret si nume</button>
         <button class="btn btn-primary" id="sortDescrescNume">Sorteaza descrescator dupa pret si nume</button>
-        
         </p>
-        
         <p id="p-suma">Apăsați Alt+"c" pentru suma preturilor produselor afișate. </p>
         <section id="produse">
             <h2>Produse</h2>
@@ -75,7 +79,6 @@
                         <h3 class="ceva"><%-prod.id %>. Nume: <a href="/produs/<%-prod.id %>" ><span class="val-nume"><%- prod.nume%></span></a></h3><br>
                         <div class="info-prod">
                             <p class="pret">Pret: <span class="val-pret"><%- prod.pret%></span></p>
-                            <p></p>
                             <p></p>
                             <p class="grid-produse">Categorie: <span class="val-categorie"><%- prod.categorie%></span></p>
                         </div>
