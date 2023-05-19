@@ -26,7 +26,8 @@
     <%- include("../fragmente/header") %>
 
     <main>
-        <label> Nume: <input type="text" id="inp-nume"></label><br><br>
+        <label>Nume: <textarea id="inp-nume" rows="1" cols="20"></textarea></label><br></br>
+        <label> Cuvant cheie: <input type="text" id="inp-cheie"></label><br><br>
         <div> Subiecte:<!-- trebuie sa aiba acelasi name ca sa formeze un grup -->
             <p><label>Putine subiecte (subiecte &lt; 2)
                 <input id="i_rad1"  name="gr_rad" value="0:2" type="radio"/>
@@ -72,58 +73,63 @@
                 <option value="false">nu</option>
             </select>
         </label><br><br>
+        <fieldset>
+            <label>Alege cateva proprietati cheie:</label>
+            <div class="inp-checkbox">
+                <input type="checkbox" id="noutati"><label for="noutati">&emsp;&emsp;Noutati</label><br>
+                <input type="checkbox" id="aldoilea"><label for="aldoilea">&emsp;&emsp;Al doilea</label><br>
+                <input type="checkbox" id="altreilea"><label for="altreilea">&emsp;&emsp;Al treilea</label><br>
+            </div>
+        </fieldset><br>
         <p>
         <button class="btn btn-primary" id="filtrare">Filtreaza</button> 
         <button class="btn btn-primary" id="resetare">Reseteaza</button><br/><br>
-        <button class="btn btn-primary" id="sortCrescNume">Sorteaza crescator dupa pret si nume</button>
-        <button class="btn btn-primary" id="sortDescrescNume">Sorteaza descrescator dupa pret si nume</button>
+        <button class="btn btn-primary" id="sortCrescNume">Sorteaza crescator dupa nume si raport</button>
+        <button class="btn btn-primary" id="sortDescrescNume">Sorteaza descrescator dupa nume si raport</button>
         </p>
-        <!-- <p id="p-suma">Apăsați Alt+"c" pentru Suma preturilor produselor afișate. </p> -->
         <br><button class="btn btn-primary" id="sumaproduselor">Suma preturilor produselor afișate.</button><br><br>
         <section id="produse">
             <h2>Produse</h2>
             <div class="grid-produse">
                 <% for( let prod of locals.produse) { %>
-                    <article class="produs" >
-                        <h3 class="ceva"><%-prod.id %>. Nume: <a href="/produs/<%-prod.id %>" ><span class="val-nume"><%- prod.nume%></span></a></h3><br>
-                        <div class="info-prod">
+                    <div class ="produsfinal">
+                        <article class="produs">
+                            <h3 class="nume"><%-prod.id %>. Nume: <a href="/produs/<%-prod.id %>" ><span class="val-nume"><%- prod.nume%></span></a></h3>
                             <p class="pret">Pret: <span class="val-pret"><%- prod.pret%></span></p>
-                            <p></p>
-                            <p class="grid-produse">Categorie: <span class="val-categorie"><%- prod.categorie%></span></p>
-                        </div>
-                        <div class="info-prod">
+                            <p class="categorie">Categorie: <span class="val-categorie"><%- prod.categorie%></span></p>
                             <p class="subiecte">Subiecte: <span class="val-subiecte"><%- prod.subiecte%></span></p>
-                            <p></p>
-                            <p class="pret">Descriere: <span class="val-descriere"><%- prod.descriere%></span></p>
-                        </div>
-                        <div class="info-prod"><p class="distantafocala">Distanta focala: <span class="val-distantafocala"><%- prod.distanta_focala%>mm</span></p></div>
-                        <div class="info-prod"><p><time class="data-creare" datetime="<%- prod.data_creare%>">Data creare: </time></p></div>
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                        <script>
-                            $(document).ready(function() {
-                              $(".data-creare").each(function() {
-                                var dataCreareElement = $(this);
-                                var dataCreareValue = dataCreareElement.attr("datetime");
-                          
-                                if (dataCreareElement.text().trim().startsWith("Data creare:")) {
-                                  var dataCreare = new Date(dataCreareValue);
-                                  var options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-                                  var formattedDataCreare = dataCreare.toLocaleDateString('ro-RO', options);
-                          
-                                  dataCreareElement.text("Data creare: " + formattedDataCreare);
-                                }
-                              });
-                            });
-                        </script>
-                        <div class="info-prod"><p class="categorie">Family friendly: <span class="val-sfw"><%- prod.family_friendly%></span></p></div>
-                        <figure>
-                            <a href="/produs/<%-prod.id %>" ><img src="/resurse/imagini/produse/<%- prod.imagine %>" style="width:50%;height:auto;" alt="[imagine <%- prod.nume %>]" /></a>
-                        </figure>
-                        <label class="btn btn-primary">
+                            <p class="descriere">Descriere: <span class="val-descriere"><%- prod.descriere%></span></p>
+                            <p class="distantafocala">Distanta focala: <span class="val-distantafocala"><%- prod.distanta_focala%>mm</span></p>
+                            <p class="dataCreare"><time class="data-creare" datetime="<%- prod.data_creare%>">Data creare: </time></p>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script src="otherScript.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    var prodDataCreareArray = [];
+                                    $(".data-creare").each(function() {
+                                        var dataCreareElement = $(this);
+                                        var dataCreareValue = dataCreareElement.attr("datetime");
+                                        prodDataCreareArray.push(dataCreareValue); 
+                                        if (dataCreareElement.text().trim().startsWith("Data creare:")) {
+                                            var dataCreare = new Date(dataCreareValue);
+                                            var options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+                                            var formattedDataCreare = dataCreare.toLocaleDateString('ro-RO', options);
+                                            dataCreareElement.text("Data creare: " + formattedDataCreare);
+                                        }
+                                    });
+                                    window.prodDataCreareArray = prodDataCreareArray; 
+                                });
+                            </script>                                
+                            <p class="sfw">Family friendly: <span class="val-sfw"><%- prod.family_friendly%></span></p>
+                            <figure class="poza">
+                                <a href="/produs/<%-prod.id %>" id="poza"><img src="/resurse/imagini/produse/<%- prod.imagine %>" style="width:50%;height:auto;" alt="[imagine <%- prod.nume %>]" id="poza"/></a>
+                            </figure>
+                        </article>
+                        <label class="btn btn-primary" id="buton">
                             Selectează:<br/>
                             <input type="checkbox" class="select-cos" value="<%-prod.id %>" autocomplete="off">
                         </label>
-                    </article>
+                    </div>
                 <% }%>
             </div>
         </section>

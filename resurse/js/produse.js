@@ -2,9 +2,12 @@ window.addEventListener("load", function() {
     document.getElementById("inp-pret").onchange=function() {
         document.getElementById("infoRange").innerHTML=`(${this.value})`;
     }
-
+    
     document.getElementById("filtrare").onclick=function() {
+        var counter=0;
         let val_nume=document.getElementById("inp-nume").value.toLowerCase();
+
+        let val_cheie=document.getElementById("inp-cheie").value.toLowerCase();
         
         let radioButtons=document.getElementsByName("gr_rad");
         let val_subiecte;
@@ -31,11 +34,11 @@ window.addEventListener("load", function() {
         var selectedOptions = Array.from(val_categoriem.selectedOptions);
         var selectedValuesCategoriem = selectedOptions.map(option => option.value);
 
-        // alert(selectedValuesCategoriem[0]);
-
         let val_sfw=document.getElementById("inp-sfw").value;
+
+        let val_noutati=document.getElementById("noutati").checked;
         
-        var produse=document.getElementsByClassName("produs");
+        var produse=document.getElementsByClassName("produsfinal");
         for(let prod of produse) {
             prod.style.display="none";
             let nume=prod.getElementsByClassName("val-nume")[0].innerHTML.toLowerCase();
@@ -71,41 +74,50 @@ window.addEventListener("load", function() {
                     }
                 }
             }
+
+            let descriere=prod.getElementsByClassName("val-descriere")[0].innerHTML.toLowerCase();
+            let cond7=(descriere.includes(val_cheie) || val_cheie=="");
+
+            let dataCreare=window.prodDataCreareArray;
+            var noutate=new Date();
+            noutate.setDate(noutate.getDate()-31);
+            var thisDate=new Date(dataCreare[counter]);
+            let cond8=(thisDate >= noutate || val_noutati==false);
             
-            if(cond1 && cond2 && cond3 && cond4 && cond5 && cond6) {
+            if(cond1 && cond2 && cond3 && cond4 && cond5 && cond6 && cond7 && cond8) {
                 prod.style.display="block";
             }
+            counter++;
         }
     }
 
     document.getElementById("resetare").onclick= function(){
-                
         document.getElementById("inp-nume").value="";
-        
+        document.getElementById("inp-cheie").value="";
         document.getElementById("inp-pret").value=document.getElementById("inp-pret").min;
         document.getElementById("inp-categorie").value="toate";
         document.getElementById("inp-categoriem").value="toate";
         document.getElementById("inp-sfw").value="toate";
         document.getElementById("i_rad4").checked=true;
-        var produse=document.getElementsByClassName("produs");
         document.getElementById("infoRange").innerHTML="(0)";
-        for (let prod of produse){
+        document.getElementById("noutati").checked=false;
+        var produse=document.getElementsByClassName("produsfinal");
+        for (let prod of produse)
             prod.style.display="block";
-        }
     }
     
     function sortare(semn){
-        var produse=document.getElementsByClassName("produs");
+        var produse=document.getElementsByClassName("produsfinal");
         var v_produse= Array.from(produse);
         v_produse.sort(function (a,b){
-            let pret_a=parseFloat(a.getElementsByClassName("val-pret")[0].innerHTML);
-            let pret_b=parseFloat(b.getElementsByClassName("val-pret")[0].innerHTML);
-            if(pret_a==pret_b){
-                let nume_a=a.getElementsByClassName("val-nume")[0].innerHTML;
-                let nume_b=b.getElementsByClassName("val-nume")[0].innerHTML;
-                return semn*nume_a.localeCompare(nume_b);
+            let nume_a=a.getElementsByClassName("val-nume")[0].innerHTML;
+            let nume_b=b.getElementsByClassName("val-nume")[0].innerHTML;
+            if(nume_a==nume_b){
+                let raport_a=parseFloat(a.getElementsByClassName("val-distantafocala")[0].innerHTML)/parseFloat(a.getElementsByClassName("val-pret")[0].innerHTML);
+                let raport_b=parseFloat(b.getElementsByClassName("val-distantafocala")[0].innerHTML)/parseFloat(b.getElementsByClassName("val-pret")[0].innerHTML);
+                return semn*(raport_a-raport_b);
             }
-            return semn*(pret_a-pret_b);
+            return semn*nume_a.localeCompare(nume_b);
         });
         for(let prod of v_produse){
             prod.parentElement.appendChild(prod);
@@ -119,10 +131,9 @@ window.addEventListener("load", function() {
     }
 
     this.document.getElementById("sumaproduselor").onclick=function(){
-        // alert("da");
         if(document.getElementById("info-suma"))
             return;
-        var produse=document.getElementsByClassName("produs");
+        var produse=document.getElementsByClassName("produsfinal");
         let suma=0;
         for (let prod of produse){
             if(prod.style.display!="none") {
@@ -144,7 +155,7 @@ window.addEventListener("load", function() {
             }, 2000);
     }
 
-    document.getElementById("btn-inp-categoriem").addEventListener("click", function() {
+    document.getElementById("btn-inp-categoriem").onclick=function() {
         var categoriem = document.getElementById("inp-categoriem");
         var butoncategoriem=document.getElementById("btn-inp-categoriem");
         if (categoriem.style.display === "none") {
@@ -154,5 +165,5 @@ window.addEventListener("load", function() {
             categoriem.style.display = "none";
             butoncategoriem.innerHTML="Arata";
         }
-      });
+      }
 });
