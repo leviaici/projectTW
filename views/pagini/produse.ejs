@@ -42,6 +42,14 @@
             </label>
         </div>
         <label> Pret minim: <input type="range" id="inp-pret" value="0" min="0"  max="70"> <span id="infoRange">(0)</span></label><br><br>
+        <script>
+            var rangeInput = document.getElementById("inp-pret");
+            var infoRange = document.getElementById("infoRange");
+          
+            rangeInput.addEventListener("input", function() {
+                infoRange.textContent = "(" + rangeInput.min + " - " + rangeInput.max + ")";
+            });
+        </script>
         <label for="inp-categorie">Categorie simpla:</label>
         <input list="inp-categorielist" id="inp-categorie" name="inp-categorie" value="toate"><br><br>
         <datalist id="inp-categorielist">
@@ -70,7 +78,8 @@
         <button class="btn btn-primary" id="sortCrescNume">Sorteaza crescator dupa pret si nume</button>
         <button class="btn btn-primary" id="sortDescrescNume">Sorteaza descrescator dupa pret si nume</button>
         </p>
-        <p id="p-suma">Apăsați Alt+"c" pentru suma preturilor produselor afișate. </p>
+        <!-- <p id="p-suma">Apăsați Alt+"c" pentru Suma preturilor produselor afișate. </p> -->
+        <br><button class="btn btn-primary" id="sumaproduselor">Suma preturilor produselor afișate.</button><br><br>
         <section id="produse">
             <h2>Produse</h2>
             <div class="grid-produse">

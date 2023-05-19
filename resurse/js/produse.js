@@ -118,33 +118,30 @@ window.addEventListener("load", function() {
         sortare(-1);
     }
 
-    window.onkeydown= function(e){
-        if (e.key=="c" && e.altKey){
-            if(document.getElementById("info-suma"))
-                return;
-            var produse=document.getElementsByClassName("produs");
-            let suma=0;
-            for (let prod of produse){
-                if(prod.style.display!="none")
-                {
-                    let pret=parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML);
-                    suma+=pret;
-                }
+    this.document.getElementById("sumaproduselor").onclick=function(){
+        // alert("da");
+        if(document.getElementById("info-suma"))
+            return;
+        var produse=document.getElementsByClassName("produs");
+        let suma=0;
+        for (let prod of produse){
+            if(prod.style.display!="none") {
+                let pret=parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML);
+                suma+=pret;
             }
-            
-            let p=document.createElement("p");
-            p.innerHTML=suma;
-            p.id="info-suma";
-            ps=document.getElementById("p-suma");
-            container = ps.parentNode;
-            frate=ps.nextElementSibling
-            container.insertBefore(p, frate);
-            setTimeout(function(){
-                let info=document.getElementById("info-suma");
-                if(info)
-                    info.remove();
-            }, 1000)
         }
+        let p=document.createElement("p");
+        p.innerHTML="Suma produselor afisate este de " + suma + "$.";
+        p.id="info-suma";
+        ps=document.getElementById("sumaproduselor");
+        container = ps.parentNode;
+        frate=ps.nextElementSibling
+        container.insertBefore(p, frate);
+        setTimeout(function(){
+            let info=document.getElementById("info-suma");
+            if(info)
+                info.remove();
+            }, 2000);
     }
 
     document.getElementById("btn-inp-categoriem").addEventListener("click", function() {
