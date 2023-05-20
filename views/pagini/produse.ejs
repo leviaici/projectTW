@@ -26,63 +26,112 @@
     <%- include("../fragmente/header") %>
 
     <main>
-        <label>Nume: <textarea id="inp-nume" rows="1" cols="20"></textarea></label><br></br>
-        <label> Cuvant cheie: <input type="text" id="inp-cheie"></label><br><br>
-        <div> Subiecte:<!-- trebuie sa aiba acelasi name ca sa formeze un grup -->
-            <p><label>Putine subiecte (subiecte &lt; 2)
-                <input id="i_rad1"  name="gr_rad" value="0:2" type="radio"/>
-            </label></p>
-            <p><label>Incarcata (2 &le; subiecte &lt; 5)
-                <input id="i_rad2"  name="gr_rad" value="2:5" type="radio"/>
-            </label>
-            <p><label>Foarte incarcata (5 &le; subiecte)
-                <input id="i_rad3" name="gr_rad" value="5:1000000000" type="radio"/>
-            </label>
-            <p><label>Toate
-                <input id="i_rad4" checked name="gr_rad" value="toate" type="radio"/>
-            </label>
-        </div>
-        <label> Pret minim: <input type="range" id="inp-pret" value="0" min="0"  max="70"> <span id="infoRange">(0)</span></label><br><br>
-        <script>
-            var rangeInput = document.getElementById("inp-pret");
-            var infoRange = document.getElementById("infoRange");
-          
-            rangeInput.addEventListener("input", function() {
-                infoRange.textContent = "(" + rangeInput.min + " - " + rangeInput.max + ")";
-            });
-        </script>
-        <label for="inp-categorie">Categorie simpla:</label>
-        <input list="inp-categorielist" id="inp-categorie" name="inp-categorie" value="toate"><br><br>
-        <datalist id="inp-categorielist">
-            <% for (let opt of locals.optiuni) { %>
-                <option value="<%- opt.unnest %>"><%- opt.unnest %> </option>
-            <% } %>
-        </datalist>
-        <label for="inp-categoriem">Categorie multipla:</label>
-        <button class="btn btn-primary" id="btn-inp-categoriem">Arata</button>
-        <select list="inp-categorielistm" id="inp-categoriem" name="inp-categoriem" value="toate" multiple>
-            <option value="toate">toate</option>
-            <% for (let opt of locals.optiuni) { %>
-                <option value="<%- opt.unnest %>"><%- opt.unnest %> </option>
-            <% } %>
-        </select><br><br>
-        <label>Family friendly:
-            <select id="inp-sfw">
-                <option id="sel-toate" selected value="toate">toate</option>
-                <option value="true">da</option>
-                <option value="false">nu</option>
-            </select>
-        </label><br><br>
-        <fieldset>
-            <label>Alege cateva proprietati cheie:</label>
-            <div class="inp-checkbox">
-                <input type="checkbox" id="noutati"><label for="noutati">&emsp;&emsp;Noutati</label><br>
-                <input type="checkbox" id="aldoilea"><label for="aldoilea">&emsp;&emsp;Al doilea</label><br>
-                <input type="checkbox" id="altreilea"><label for="altreilea">&emsp;&emsp;Al treilea</label><br>
+        <!-- <button class="btn btn-primary" id="filtre">Afiseaza filtre</button><br><br> -->
+        <form class="needs-validation" novalidate>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" id="inp-nume" rows="1" cols="20" required></textarea>
+                        <label for="inp-nume">Nume</label>
+                        <div class="valid-feedback">Super!</div>
+                        <div class="invalid-feedback">Alege, te rog, un nume.</div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="inp-cheie">Cuvant cheie: </label>
+                    <input type="text" id="inp-cheie" class="form-control">
+                </div>
+            </div><br>
+                <div class="row">
+                    <div class="col-sm"> Subiecte:
+                        <p><label>Putine subiecte (subiecte &lt; 2)
+                            <input id="i_rad1"  name="gr_rad" value="0:2" type="radio" class="custom-control-input"/>
+                        </label></p>
+                        <p><label>Incarcata (2 &le; subiecte &lt; 5)
+                            <input id="i_rad2"  name="gr_rad" value="2:5" type="radio" class="custom-control-input"/>
+                        </label>
+                        <p><label>Foarte incarcata (5 &le; subiecte)
+                            <input id="i_rad3" name="gr_rad" value="5:1000000000" type="radio" class="custom-control-input"/>
+                        </label>
+                        <p><label>Toate
+                            <input id="i_rad4" checked name="gr_rad" value="toate" type="radio" class="custom-control-input"/>
+                        </label>
+                    </div>
+                    <div class="col-sm">
+                        <label> Pret minim: <input type="range" id="inp-pret" value="0" min="0"  max="70"> <span id="infoRange">(0)</span></label>
+                    </div><br><br>
+                    <script>
+                        var rangeInput = document.getElementById("inp-pret");
+                        var infoRange = document.getElementById("infoRange");
+                    
+                        rangeInput.addEventListener("input", function() {
+                            infoRange.textContent = "(" + rangeInput.min + " - " + rangeInput.max + ")";
+                        });
+                    </script>
+                </div><br>
+                <div class="row">
+                    <div class="col-sm">
+                        <label for="inp-categorie">Categorie simpla:</label>
+                        <input list="inp-categorielist" id="inp-categorie" name="inp-categorie" value="toate"><br><br>
+                        <datalist id="inp-categorielist">
+                            <% for (let opt of locals.optiuni) { %>
+                                <option value="<%- opt.unnest %>"><%- opt.unnest %> </option>
+                            <% } %>
+                        </datalist>
+                    </div>
+                    <div class="col-sm">
+                        <label for="inp-categoriem">Categorie multipla:</label>
+                        <button class="btn btn-primary" id="btn-inp-categoriem">Arata</button>
+                        <select list="inp-categorielistm" id="inp-categoriem" name="inp-categoriem" value="toate" multiple>
+                            <option value="toate">toate</option>
+                            <% for (let opt of locals.optiuni) { %>
+                                <option value="<%- opt.unnest %>"><%- opt.unnest %> </option>
+                            <% } %>
+                        </select><br><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <label>Family friendly:
+                            <select id="inp-sfw">
+                                <option id="sel-toate" selected value="toate">toate</option>
+                                <option value="true">da</option>
+                                <option value="false">nu</option>
+                            </select>
+                        </label><br><br>
+                    </div>
+                    <div class="col-sm">
+                        <fieldset>
+                            <label>Alege cateva proprietati cheie:</label>
+                            <div class="inp-checkbox">
+                                <input type="checkbox" id="noutati"><label for="noutati">&emsp;&emsp;Noutati</label><br>
+                                <input type="checkbox" id="aldoilea"><label for="aldoilea">&emsp;&emsp;Al doilea</label><br>
+                                <input type="checkbox" id="altreilea"><label for="altreilea">&emsp;&emsp;Al treilea</label><br>
+                            </div>
+                        </fieldset><br>
+                        <p>
+                    </div>
+                </div>
             </div>
-        </fieldset><br>
-        <p>
-        <button class="btn btn-primary" id="filtrare">Filtreaza</button> 
+            <button class="btn btn-primary" id="filtrare">Filtreaza</button><br><br>
+        </form>
+        <script>
+            (function() {
+              'use strict';
+              window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                  form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                  }, false);
+                });
+              }, false);
+            })();
+        </script>
         <button class="btn btn-primary" id="resetare">Reseteaza</button><br/><br>
         <button class="btn btn-primary" id="sortCrescNume">Sorteaza crescator dupa nume si raport</button>
         <button class="btn btn-primary" id="sortDescrescNume">Sorteaza descrescator dupa nume si raport</button>
@@ -134,7 +183,6 @@
             </div>
         </section>
     </main>
-
     <%- include("../fragmente/footer") %>
     </body>
 </html>

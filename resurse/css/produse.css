@@ -134,3 +134,7 @@ h3.ceva {
 .poza {
     grid-area: f-poza;
 }
+
+.needs-validation {
+    /* display: none; */
+}
