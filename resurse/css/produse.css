@@ -138,3 +138,7 @@ h3.ceva {
 .needs-validation {
     display: none;
 }
+
+.produsfinal p, .produsfinal h3 {
+    color: #DCDCDC;
+}
