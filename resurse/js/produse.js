@@ -45,23 +45,23 @@ window.addEventListener("load", function() {
             // alert(nume);
             // alert(val_nume);
             let cond1=(nume.startsWith(val_nume));
-            alert(1);
-            alert(cond1);
+            //alert(1);
+            //alert(cond1);
             
             let subiecte=parseInt(prod.getElementsByClassName("val-subiecte")[0].innerHTML.toLowerCase());
             let cond2=(val_subiecte=="toate" || sub_a<=subiecte && sub_b>subiecte);
-            alert(2);
-            alert(cond2);
+            //alert(2);
+            //alert(cond2);
 
             let pret=parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML.toLowerCase());
             let cond3=(pret>=val_pret);
-            alert(3);
-            alert(cond3);
+            // alert(3);
+            //alert(cond3);
 
             let categorie=prod.getElementsByClassName("val-categorie")[0].innerHTML;
             let cond4=(val_categorie=="toate" || val_categorie==categorie || val_categorie=="");
-            alert(4);
-            alert(cond4);
+            // alert(4);
+            //alert(cond4);
 
             let sfw=prod.getElementsByClassName("val-sfw")[0].innerHTML;
             // alert(val_sfw);
@@ -73,8 +73,8 @@ window.addEventListener("load", function() {
                 val_sfw="false";
 
             let cond5=(val_sfw=="toate" || val_sfw==sfw);
-            alert(5);
-            alert(cond5);
+            // alert(5);
+            //alert(cond5);
             // alert(val_sfw=="toate");
 
             let categoriem=prod.getElementsByClassName("val-categorie")[0].innerHTML;
@@ -89,29 +89,27 @@ window.addEventListener("load", function() {
                     }
                 }
             }
-            alert(6);
-            alert(cond6);
+            // alert(6);
+            //alert(cond6);
 
             let descriere=prod.getElementsByClassName("val-descriere")[0].innerHTML.toLowerCase();
             let cond7=(descriere.includes(val_cheie) || val_cheie=="");
-            alert(7);
-            alert(cond7);
+            // alert(7);
+            //alert(cond7);
 
             let dataCreare=window.prodDataCreareArray;
             var noutate=new Date();
             noutate.setDate(noutate.getDate()-31);
             var thisDate=new Date(dataCreare[counter]);
             let cond8=(thisDate >= noutate || val_noutati==false);
-            alert(8);
-            alert(cond8);
             
             if(cond1 && cond2 && cond3 && cond4 && cond5 && cond6 && cond7 && cond8) {
-                alert("SE AFISEAZA");
+                // alert("SE AFISEAZA");
                 prod.style.display="block";
             }
             counter++;
         }
-        // afisareFiltre();
+        afisareFiltre();
     }
 
     document.getElementById("resetare").onclick= function(){
