@@ -44,7 +44,7 @@ body.dark {
 }
 
 #im_mask{
-   margin-top: -36px;
+   margin-top: -36px !important;
    outline:none;
    border:none;
     left:0;
