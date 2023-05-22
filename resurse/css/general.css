@@ -330,3 +330,16 @@ a[href^="https"]:hover {
 a:active {
     border: 2px solid black !important;
 }
+
+/* #form_inreg {
+    display: grid;
+    grid-template-areas: "f-user f-parola";
+}
+
+#inp-username {
+    grid-area: f-user;
+}
+
+#parl {
+    grid-area: f-parola;
+} */

@@ -4,8 +4,13 @@ const path=require('path');
 const sharp=require('sharp');
 const sass=require('sass');
 const ejs=require('ejs');
-const {Client}=require('pg');
+const {Client} =require('pg');
 const AccesBD= require("./module_proprii/accesbd.js");
+
+const formidable=require("formidable");
+const {Utilizator}=require("./module_proprii/utilizator.js")
+const session=require('express-session');
+const Drepturi = require("./module_proprii/drepturi.js");
  
 // AccesBD.getInstanta().select( // DE MODIFICAT
 //     {tabel:"prajituri",
@@ -33,7 +38,7 @@ obGlobal={
     obImagini:null,
     folderScss: path.join(__dirname, "resurse/scss"),
     folderCss: path.join(__dirname, "resurse/css"),
-    folderBackup: path.join(__dirname, "backup"),
+    folderBackup: path.join(__dirname, "backup"), 
     optiuniMeniu:[]
 }
 
@@ -50,8 +55,13 @@ console.log("Folder proiect", __dirname);
 console.log("Cale fisier", __filename);
 console.log("Director de lucru", process.cwd());
 
+app.use(session({ // aici se creeaza proprietatea session a requestului (pot folosi req.session)
+    secret: 'abcdefg',//folosit de express session pentru criptarea id-ului de sesiune
+    resave: true,
+    saveUninitialized: false
+  }));
 
-vectorFoldere=["temp", "temp1", "backup"]
+vectorFoldere=["temp", "temp1", "backup", "poze_uploadate"]
 for (let folder of vectorFoldere){
     //let caleFolder=__dirname+"/"+folder;
     let caleFolder=path.join(__dirname, folder)
@@ -118,6 +128,10 @@ app.use("/node_modules", express.static(__dirname+"/node_modules"));
 
 app.use("/*", function(req, res, next) {
     res.locals.optiuniMeniu=obGlobal.optiuniMeniu;
+    res.locals.Drepturi=Drepturi;
+    if (req.session.utilizator){
+        req.utilizator=res.locals.utilizator=new Utilizator(req.session.utilizator);
+    }    
     next();
 })
 
@@ -134,8 +148,11 @@ app.get("/ceva", function(req, res){
     res.send("<h1>altceva</h1> ip:"+req.ip);
 })
 
-app.get(["/index","/","/home" ], function(req, res){
-    res.render("pagini/index" , {ip: req.ip, a: 10, b:20, imagini: obGlobal.obImagini.imagini});
+app.get(["/index","/","/home","/login" ], function(req, res){
+    let sir=req.session.mesajLogin;
+    console.log("mesajLogin:",sir)
+    req.session.mesajLogin=null;
+    res.render("pagini/index" , {ip: req.ip, a: 10, b:20, imagini: obGlobal.obImagini.imagini, mesajLogin:sir});
 })
 
 app.get("*/galerie-animata.css",function(req, res){
@@ -165,6 +182,7 @@ app.get("*/galerie-animata.css.map",function(req, res){
     res.sendFile(path.join(__dirname,"temp/galerie-animata.css.map"));
 });
 
+// --------------------------------------------- Produse ---------------------------------------
 app.get("/produse",function(req, res){
     // console.log(req.query)
     //TO DO query pentru a selecta toate produsele
@@ -204,10 +222,238 @@ app.get("/produs/:id",function(req, res){
     });
 });
 
+///////////////////////// Utilizatori
+
+app.post("/inregistrare",function(req, res){
+    var username;
+    var poza;
+    console.log("ceva");
+    var formular= new formidable.IncomingForm()
+    formular.parse(req, function(err, campuriText, campuriFisier ){//4
+        console.log("Inregistrare:",campuriText);
+
+        console.log(campuriFisier);
+        var eroare="";
+
+        var utilizNou=new Utilizator();
+        try{
+            utilizNou.setareNume=campuriText.nume;
+            utilizNou.setareUsername=campuriText.username;
+            utilizNou.email=campuriText.email
+            utilizNou.prenume=campuriText.prenume
+            
+            utilizNou.parola=campuriText.parola;
+            utilizNou.culoare_chat=campuriText.culoare_chat;
+            utilizNou.poza= poza;
+            Utilizator.getUtilizDupaUsername(campuriText.username, {}, function(u, parametru ,eroareUser ){
+                if (eroareUser==-1){//nu exista username-ul in BD
+                    utilizNou.salvareUtilizator();
+                }
+                else{
+                    eroare+="Mai exista username-ul";
+                }
+
+                if(!eroare){
+                    res.render("pagini/inregistrare", {raspuns:"Inregistrare cu succes!"})
+                    
+                }
+                else
+                    res.render("pagini/inregistrare", {err: "Eroare: "+eroare});
+            })
+        }
+        catch(e){ 
+            console.log(e);
+            eroare+= "Eroare site; reveniti mai tarziu";
+            console.log(eroare);
+            res.render("pagini/inregistrare", {err: "Eroare: "+eroare})
+        }
+
+    });
+    formular.on("field", function(nume,val){  // 1 
+	
+        console.log(`--- ${nume}=${val}`);
+		
+        if(nume=="username")
+            username=val;
+    }) 
+    formular.on("fileBegin", function(nume,fisier){ //2
+        console.log("fileBegin");
+		
+        console.log(nume,fisier);
+		//TO DO in folderul poze_uploadate facem folder cu numele utilizatorului
+        let folderUser=path.join(__dirname, "poze_uploadate",username);
+        //folderUser=__dirname+"/poze_uploadate/"+username
+        console.log(folderUser);
+        if (!fs.existsSync(folderUser))
+            fs.mkdirSync(folderUser);
+        fisier.filepath=path.join(folderUser, fisier.originalFilename)
+        poza=fisier.originalFilename
+        //fisier.filepath=folderUser+"/"+fisier.originalFilename
+
+    })    
+    formular.on("file", function(nume,fisier){//3
+        console.log("file");
+        console.log(nume,fisier);
+    }); 
+});
+
+app.post("/login",function(req, res){
+    var username;
+    console.log("ceva");
+    var formular= new formidable.IncomingForm()
+    formular.parse(req, function(err, campuriText, campuriFisier ){
+        Utilizator.getUtilizDupaUsername (campuriText.username,{
+            req:req,
+            res:res,
+            parola:campuriText.parola
+        }, function(u, obparam ){
+            let parolaCriptata=Utilizator.criptareParola(obparam.parola);
+            if(u.parola==parolaCriptata && u.confirmat_mail ){
+                u.poza=u.poza?path.join("poze_uploadate",u.username, u.poza):"";
+                obparam.req.session.utilizator=u;
+                
+                obparam.req.session.mesajLogin="Bravo! Te-ai logat!";
+                obparam.res.redirect("/index");
+                //obparam.res.render("/login");
+            }
+            else{
+                console.log("Eroare logare")
+                obparam.req.session.mesajLogin="Date logare incorecte sau nu a fost confirmat mailul!";
+                obparam.res.redirect("/index");
+            }
+        })
+    });
+});
+
+
+app.post("/profil", function(req, res){
+    console.log("profil");
+    if (!req.session.utilizator){
+        randeazaEroare(res,403,)
+        res.render("pagini/eroare_generala",{text:"Nu sunteti logat."});
+        return;
+    }
+    var formular= new formidable.IncomingForm();
+ 
+    formular.parse(req,function(err, campuriText, campuriFile){
+       
+        var parolaCriptata=Utilizator.criptareParola(campuriText.parola);
+        // AccesBD.getInstanta().update(
+        //     {tabel:"utilizatori",
+        //     campuri:["nume","prenume","email","culoare_chat"],
+        //     valori:[`${campuriText.nume}`,`${campuriText.prenume}`,`${campuriText.email}`,`${campuriText.culoare_chat}`],
+        //     conditiiAnd:[`parola='${parolaCriptata}'`]
+        // },  
+        AccesBD.getInstanta().updateParametrizat(
+            {tabel:"utilizatori",
+            campuri:["nume","prenume","email","culoare_chat"],
+            valori:[`${campuriText.nume}`,`${campuriText.prenume}`,`${campuriText.email}`,`${campuriText.culoare_chat}`],
+            conditiiAnd:[`parola='${parolaCriptata}'`]
+        },          
+        function(err, rez){
+            if(err){
+                console.log(err);
+                randeazaEroare(res,2);
+                return;
+            }
+            console.log(rez.rowCount);
+            if (rez.rowCount==0){
+                res.render("pagini/profil",{mesaj:"Update-ul nu s-a realizat. Verificati parola introdusa."});
+                return;
+            }
+            else{            
+                //actualizare sesiune
+                console.log("ceva");
+                req.session.utilizator.nume= campuriText.nume;
+                req.session.utilizator.prenume= campuriText.prenume;
+                req.session.utilizator.email= campuriText.email;
+                req.session.utilizator.culoare_chat= campuriText.culoare_chat;
+                res.locals.utilizator=req.session.utilizator;
+            }
+ 
+ 
+            res.render("pagini/profil",{mesaj:"Update-ul s-a realizat cu succes."});
+ 
+        });
+       
+ 
+    });
+});
+
+
+
+/******************Administrare utilizatori */
+app.get("/useri", function(req, res){
+   
+    if(req?.utilizator?.areDreptul?.(Drepturi.vizualizareUtilizatori)){
+        AccesBD.getInstanta().select({tabel:"utilizatori", campuri:["*"]}, function(err, rezQuery){
+            console.log(err);
+            res.render("pagini/useri", {useri: rezQuery.rows});
+        });
+    }
+    else{
+        renderError(res, 403);
+    }
+});
+
+
+app.post("/sterge_utiliz", function(req, res){
+    if(req?.utilizator?.areDreptul?.(Drepturi.stergereUtilizatori)){
+        var formular= new formidable.IncomingForm();
+ 
+        formular.parse(req,function(err, campuriText, campuriFile){
+           
+                AccesBD.getInstanta().delete({tabel:"utilizatori", conditiiAnd:[`id=${campuriText.id_utiliz}`]}, function(err, rezQuery){
+                console.log(err);
+                res.redirect("/useri");
+            });
+        });
+    }else{
+        renderError(res,403);
+    }
+});
+
+
+
+
+app.get("/logout", function(req, res){
+    req.session.destroy();
+    res.locals.utilizator=null;
+    res.render("pagini/logout");
+});
+
+
+//http://${Utilizator.numeDomeniu}/cod/${utiliz.username}/${token}
+app.get("/cod/:username/:token",function(req,res){
+    console.log(req.params);
+    try {
+        Utilizator.getUtilizDupaUsername(req.params.username,{res:res,token:req.params.token} ,function(u,obparam){
+            AccesBD.getInstanta().update(
+                {tabel:"utilizatori",
+                campuri:{confirmat_mail:'true'}, 
+                conditiiAnd:[`cod='${obparam.token}'`]}, 
+                function (err, rezUpdate){
+                    if(err || rezUpdate.rowCount==0){
+                        console.log("Cod:", err);
+                        afisareEroare(res,3);
+                    }
+                    else{
+                        res.render("pagini/confirmare.ejs");
+                    }
+                })
+        })
+    }
+    catch (e){
+        console.log(e);
+        renderError(res,2);
+    }
+});
+
 // ^\w+\.ejs$
 app.get("/*.ejs",function(req, res){
     afisareEroare(res,400);
 })
+
 
 app.get("/*",function(req, res){
     try{
@@ -234,7 +480,7 @@ app.get("/*",function(req, res){
     }
 })
 
-
+// --------------------------- Erori ------------------------------------------------
 function initErori(){
     var continut= fs.readFileSync(__dirname+"/resurse/json/erori.json").toString("utf-8");
     console.log(continut);
@@ -309,6 +555,7 @@ function afisareEroare(res, _identificator, _titlu="titlu default", _text, _imag
     
 
 }
+
 
 app.listen(8080);
 console.log("Serverul a pornit");

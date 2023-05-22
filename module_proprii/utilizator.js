@@ -9,8 +9,8 @@ const nodemailer=require("nodemailer");
 class Utilizator{
     static tipConexiune="local";
     static tabel="utilizatori"
-    static parolaCriptare="tehniciweb";
-    static emailServer="test.tweb.node@gmail.com";
+    static parolaCriptare="strongPasswordForStrongGmail#2023";
+    static emailServer="levisphotographyshop@gmail.com";
     static lungimeCod=64;
     static numeDomeniu="localhost:8080";
     #eroare;
@@ -20,8 +20,8 @@ class Utilizator{
 
         //optional sa facem asta in constructor
         try{
-        if(this.checkUsername(username))
-            this.username = username;
+            if(this.checkUsername(username))
+                this.username = username;
         }
         catch(e){ this.#eroare=e.message}
 
@@ -96,7 +96,7 @@ class Utilizator{
             secure: false,
             auth:{//date login 
                 user:Utilizator.emailServer,
-                pass:"rwgmgkldxnarxrgu"
+                pass:"ihbbeohallkbtuqn"
             },
             tls:{
                 rejectUnauthorized:false
@@ -139,7 +139,7 @@ class Utilizator{
     static getUtilizDupaUsername (username,obparam, proceseazaUtiliz){
         if (!username) return null;
         let eroare=null;
-        AccesBD.getInstanta(Utilizator.tipConexiune).select({tabel:"utilizatori",campuri:['*'],conditiiAnd:[`username=$1`]}, function (err, rezSelect){
+        AccesBD.getInstanta(Utilizator.tipConexiune).select({tabel:"utilizatori",campuri:['*'],conditiiAnd:[`username='${username}'`]}, function (err, rezSelect){
             if(err){
                 console.error("Utilizator:", err);
                 console.log("Utilizator",rezSelect.rows.length);
@@ -152,7 +152,7 @@ class Utilizator{
             //constructor({id, username, nume, prenume, email, rol, culoare_chat="black", poza}={})
             let u= new Utilizator(rezSelect.rows[0])
             proceseazaUtiliz(u, obparam, eroare);
-        }, [username]);
+        });
     }
 
     areDreptul(drept){

@@ -9,6 +9,13 @@
     <body>
     <%- include("../fragmente/header.ejs")  %>
     <main>
+        <% if(!locals.utilizator) { %>
+            <form id="form_inreg"  method="post" class="date"  action="/login"  enctype="multipart/form-data">
+                <h2><label>Username: <input class="form-control" type="text" name="username" id="inp-username" value="" required pattern="[A-Za-z0-9]+"></label>&emsp;&emsp;&emsp;&emsp;<label>Parola: <input class="form-control" id="parl" type="password" required  name="parola" value=""></label></h2>
+                <h3><input type="submit" value="Logare"></h3>
+            </form>
+        <% }  %>
+        <p><%- locals.mesajLogin %></p>
         <div id = "grid-pagina">
             <section id = "detaliiAutor">
                 <h2>Detalii autor</h2>
