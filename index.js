@@ -11,6 +11,14 @@ const formidable=require("formidable");
 const {Utilizator}=require("./module_proprii/utilizator.js")
 const session=require('express-session');
 const Drepturi = require("./module_proprii/drepturi.js");
+
+// const QRCode= require('qrcode');
+// const puppeteer=require('puppeteer');
+// const mongodb=require('mongodb');
+// const helmet=require('helmet');
+// const xmljs=require('xml-js');
+
+// const request=require("request");
  
 // AccesBD.getInstanta().select( // DE MODIFICAT
 //     {tabel:"prajituri",
@@ -148,7 +156,7 @@ app.get("/ceva", function(req, res){
     res.send("<h1>altceva</h1> ip:"+req.ip);
 })
 
-app.get(["/index","/","/home","/login" ], function(req, res){
+app.get(["/index","/","/home","/login" ], async function(req, res){
     let sir=req.session.mesajLogin;
     console.log("mesajLogin:",sir)
     req.session.mesajLogin=null;
@@ -159,7 +167,7 @@ app.get("*/galerie-animata.css",function(req, res){
     var sirScss=fs.readFileSync(__dirname+"/resurse/scss_ejs/galerie_animata.scss").toString("utf8");
     var culori=["navy","black","purple","grey"]; //aici de inlocuit numarul de imagini
     var indiceAleator=Math.floor(Math.random()*culori.length);
-    var culoareAleatoare=culori[indiceAleator]; 
+    var culoareAleatoare=culori[indiceAleator];
     rezScss=ejs.render(sirScss,{culoare:culoareAleatoare});
     console.log(rezScss);
     var caleScss=__dirname+"/temp/galerie_animata.scss"
@@ -348,7 +356,7 @@ app.post("/profil", function(req, res){
             {tabel:"utilizatori",
             campuri:["nume","prenume","email","culoare_chat"],
             valori:[`${campuriText.nume}`,`${campuriText.prenume}`,`${campuriText.email}`,`${campuriText.culoare_chat}`],
-            conditiiAnd:[`parola='${parolaCriptata}'`]
+            conditiiAnd:[`parola='${parolaCriptata}'`,`username='${campuriText.username}'`]
         },          
         function(err, rez){
             if(err){
@@ -392,7 +400,7 @@ app.get("/useri", function(req, res){
         });
     }
     else{
-        renderError(res, 403);
+        afisareEroare(res, 403);
     }
 });
 
@@ -409,7 +417,7 @@ app.post("/sterge_utiliz", function(req, res){
             });
         });
     }else{
-        renderError(res,403);
+        afisareEroare(res,403);
     }
 });
 
@@ -445,7 +453,7 @@ app.get("/cod/:username/:token",function(req,res){
     }
     catch (e){
         console.log(e);
-        renderError(res,2);
+        afisareEroare(res,2);
     }
 });
 

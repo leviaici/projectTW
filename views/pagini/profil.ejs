@@ -37,11 +37,11 @@
 				<img src="/<%- locals.utilizator.poza%>" alt="nu ati incarcat poza de profil" />
 			</section>
 			<%- include("../fragmente/formular",{action:"/profil"}) %>
+			<% } else { %>
+				<p>Nu sunteti logat</p>
+			<% } %>
+			<p><% locals.mesaj %></p>
 		</main>
-		<% } else { %>
-			<p>Nu sunteti logat</p>
-		<% } %>
 		<%- include("../fragmente/footer") %>
-		
 	</body>
 </html>
