@@ -12,7 +12,7 @@ const {Utilizator}=require("./module_proprii/utilizator.js")
 const session=require('express-session');
 const Drepturi = require("./module_proprii/drepturi.js");
 
-// const QRCode= require('qrcode');
+const QRCode= require('qrcode');
 // const puppeteer=require('puppeteer');
 // const mongodb=require('mongodb');
 // const helmet=require('helmet');
@@ -47,7 +47,11 @@ obGlobal={
     folderScss: path.join(__dirname, "resurse/scss"),
     folderCss: path.join(__dirname, "resurse/css"),
     folderBackup: path.join(__dirname, "backup"), 
-    optiuniMeniu:[]
+    optiuniMeniu:[],
+    protocol:"http://",
+    numeDomeniu:"localhost:8080",
+    // clientMongo:mongodb.MongoClient,
+    // bdMongo:null
 }
 
 client.query("select * from unnest(enum_range(null::tipuri_poze))", function(err, rezCategorie) {
@@ -62,6 +66,16 @@ app= express();
 console.log("Folder proiect", __dirname);
 console.log("Cale fisier", __filename);
 console.log("Director de lucru", process.cwd());
+
+// var url = "mongodb://localhost:27017";//pentru versiuni mai vechi de Node
+// var url = "mongodb://0.0.0.0:27017";
+ 
+// obGlobal.clientMongo.connect(url, function(err, bd) {
+//     if (err) console.log(err);
+//     else{
+//         obGlobal.bdMongo = bd.db("proiect_web");
+//     }
+// });
 
 app.use(session({ // aici se creeaza proprietatea session a requestului (pot folosi req.session)
     secret: 'abcdefg',//folosit de express session pentru criptarea id-ului de sesiune
@@ -133,6 +147,7 @@ app.set("view engine","ejs");
 
 app.use("/resurse", express.static(__dirname+"/resurse"));
 app.use("/node_modules", express.static(__dirname+"/node_modules"));
+app.use("/poze_uploadate",express.static(__dirname+"/poze_uploadate"));
 
 app.use("/*", function(req, res, next) {
     res.locals.optiuniMeniu=obGlobal.optiuniMeniu;
@@ -142,6 +157,11 @@ app.use("/*", function(req, res, next) {
     }    
     next();
 })
+
+app.use(["/produse_cos","/cumpara"],express.json({limit:'2mb'}));//obligatoriu de setat pt request body de tip json
+
+app.use(["/contact"], express.urlencoded({extended:true}));
+/////////////////////////////////////////////
 
 app.use(/^\/resurse(\/[a-zA-Z0-9]*)*$/, function(req,res){
     afisareEroare(res,403);
@@ -161,7 +181,60 @@ app.get(["/index","/","/home","/login" ], async function(req, res){
     console.log("mesajLogin:",sir)
     req.session.mesajLogin=null;
     res.render("pagini/index" , {ip: req.ip, a: 10, b:20, imagini: obGlobal.obImagini.imagini, mesajLogin:sir});
+    //CLIENT QUERY
 })
+
+app.get(["/","/index","/home","/login"], async function(req, res){
+    console.log("ceva");
+
+    console.log(req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse))
+
+    let sir=req.session.succesLogin;
+    req.session.succesLogin=null;
+
+    client.query("select username, nume, prenume from utilizatori where id in (select distinct user_id from accesari where now()-data_accesare <= interval '5 minutes')",
+        function(err, rez){
+            let useriOnline=[];
+            if(!err && rez.rowCount!=0)
+                useriOnline=rez.rows
+            console.log(useriOnline);
+
+            /////////////// am adaugat aici:
+            var evenimente=[]
+            var locatie="";
+            
+            request('https://secure.geobytes.com/GetCityDetails?key=7c756203dbb38590a66e01a5a3e1ad96&fqcn=109.99.96.15', //se inlocuieste cu req.ip; se testeaza doar pe Heroku
+                function (error, response, body) {
+                    locatie="Nu se poate detecta pentru moment."
+                if(error) {
+                    
+                    console.error('eroare geobytes:', error)
+                }
+                else{
+                    var obiectLocatie=JSON.parse(body);
+                    console.log(obiectLocatie);
+                    locatie=obiectLocatie.geobytescountry+" "+obiectLocatie.geobytesregion
+                }
+    
+                //generare evenimente random pentru calendar 
+                
+                var texteEvenimente=["Eveniment important", "Festivitate", "Prajituri gratis", "Zi cu soare", "Aniversare"];
+                dataCurenta=new Date();
+                for(i=0;i<texteEvenimente.length;i++){
+                    evenimente.push({data: new Date(dataCurenta.getFullYear(), dataCurenta.getMonth(), Math.ceil(Math.random()*27) ), text:texteEvenimente[i]});
+                }
+                console.log(evenimente)
+                console.log("inainte",req.session.mesajLogin);
+
+                //////sfarsit zona adaugata:
+                res.render("pagini/index", {ip: req.ip, imagini:obGlobal.obImagini.imagini, succesLogin:sir, useriOnline:useriOnline, evenimente:evenimente, locatie:locatie});
+
+        });
+
+    //adaugat si inchidere functie:
+    });
+        
+});
 
 app.get("*/galerie-animata.css",function(req, res){
     var sirScss=fs.readFileSync(__dirname+"/resurse/scss_ejs/galerie_animata.scss").toString("utf8");
@@ -216,6 +289,123 @@ app.get("/produse",function(req, res){
         }
     })
 });
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////Cos virtual
+app.post("/produse_cos",function(req, res){
+    console.log(req.body);
+    if(req.body.ids_prod.length!=0){
+        //TO DO : cerere catre AccesBD astfel incat query-ul sa fi `select nume, descriere, pret, gramaj, imagine from prajituri where id in (lista de id-uri)`
+        AccesBD.getInstanta().select({tabel:"poze", campuri:"nume,descriere,pret,distanta_focala,tip_produs,subiecte,categ_poza,locatie,family_friendly,imagine,data_creare".split(","),conditiiAnd:[`id in (${req.body.ids_prod})`]},
+        function(err, rez){
+            if(err)
+                res.send([]);
+            else
+                res.send(rez.rows); 
+        });
+}
+    else{
+        res.send([]);
+    }
+ 
+});
+
+cale_qr=__dirname+"/resurse/imagini/qrcode";
+if (fs.existsSync(cale_qr))
+  fs.rmSync(cale_qr, {force:true, recursive:true});
+fs.mkdirSync(cale_qr);
+client.query("select id from poze", function(err, rez){
+    for(let prod of rez.rows){
+        let cale_prod=obGlobal.protocol+obGlobal.numeDomeniu+"/produs/"+prod.id;
+        //console.log(cale_prod);
+        QRCode.toFile(cale_qr+"/"+prod.id+".png",cale_prod);
+    }
+});
+
+async function genereazaPdf(stringHTML,numeFis, callback) {
+    const chrome = await puppeteer.launch();
+    const document = await chrome.newPage();
+    console.log("inainte load")
+    await document.setContent(stringHTML, {waitUntil:"load"});
+    
+    console.log("dupa load")
+    await document.pdf({path: numeFis, format: 'A4'});
+    await chrome.close();
+    if(callback)
+        callback(numeFis);
+}
+
+// app.post("/cumpara",function(req, res){
+//     console.log(req.body);
+//     console.log("Utilizator:", req?.utilizator);
+//     console.log("Utilizator:", req?.utilizator?.rol?.areDreptul?.(Drepturi.cumparareProduse));
+//     console.log("Drept:", req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse));
+//     if (req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse)){
+//         AccesBD.getInstanta().select({
+//             tabel:"poze",
+//             campuri:["*"],
+//             conditiiAnd:[`id in (${req.body.ids_prod})`]
+//         }, function(err, rez){
+//             if(!err  && rez.rowCount>0){
+//                 console.log("produse:", rez.rows);
+//                 let rezFactura= ejs.render(fs.readFileSync("./views/pagini/factura.ejs").toString("utf-8"),{
+//                     protocol: obGlobal.protocol, 
+//                     domeniu: obGlobal.numeDomeniu,
+//                     utilizator: req.session.utilizator,
+//                     produse: rez.rows
+//                 });
+//                 console.log(rezFactura);
+//                 let numeFis=`./temp/factura${(new Date()).getTime()}.pdf`;
+//                 genereazaPdf(rezFactura, numeFis, function (numeFis){
+//                     mesajText=`Stimate ${req.session.utilizator.username} aveti mai jos rezFactura.`;
+//                     mesajHTML=`<h2>Stimate ${req.session.utilizator.username},</h2> aveti mai jos rezFactura.`;
+//                     req.utilizator.trimiteMail("Factura", mesajText,mesajHTML,[{
+//                         filename:"factura.pdf",
+//                         content: fs.readFileSync(numeFis)
+//                     }] );
+//                     res.send("Totul e bine!");
+//                 });
+//                 rez.rows.forEach(function (elem){ elem.cantitate=1});
+//                 let jsonFactura= {
+//                     data: new Date(),
+//                     username: req.session.utilizator.username,
+//                     produse:rez.rows
+//                 }
+//                 if(obGlobal.bdMongo){
+//                     obGlobal.bdMongo.collection("facturi").insertOne(jsonFactura, function (err, rezmongo){
+//                         if (err) console.log(err)
+//                         else console.log ("Am inserat factura in mongodb");
+
+//                         obGlobal.bdMongo.collection("facturi").find({}).toArray(
+//                             function (err, rezInserare){
+//                                 if (err) console.log(err)
+//                                 else console.log (rezInserare);
+//                         })
+//                     })
+//                 }
+//             }
+//         })
+//     }
+//     else{
+//         res.send("Nu puteti cumpara daca nu sunteti logat sau nu aveti dreptul!");
+//     }
+    
+// });
+
+app.get("/grafice", function(req,res){
+    if (! (req?.session?.utilizator && req.utilizator.areDreptul(Drepturi.vizualizareGrafice))){
+        afisEroare(res, 403);
+        return;
+    }
+    res.render("pagini/grafice");
+
+})
+
+// app.get("/update_grafice",function(req,res){
+//     obGlobal.bdMongo.collection("facturi").find({}).toArray(function(err, rezultat) {
+//         res.send(JSON.stringify(rezultat));
+//     });
+// })
 
 app.get("/produs/:id",function(req, res){
     console.log(req.params);
