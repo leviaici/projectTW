@@ -7,6 +7,12 @@ window.addEventListener("load", function() {
 
     afiseazaTema();
     
+    var banner = document.getElementById('disclaimer-banner');
+    banner.classList.add('animating');
+    setTimeout(function() {
+      banner.classList.add('show');
+    }, 2000); // Se așteaptă 2 secunde pentru a începe afișarea bannerului
+
     document.getElementById("flexSwitchCheckDefault").onchange=function() {
         afiseazaTema();
     }

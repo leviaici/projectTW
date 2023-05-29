@@ -28,11 +28,11 @@ function deleteAllCookies(){
 
 window.addEventListener("load", function(){
     if (getCookie("acceptat_banner")){
-        document.getElementById("banner").style.display="none";
+        document.getElementById("disclaimer-banner").style.display="none";
     }
 
     this.document.getElementById("ok_cookies").onclick=function(){
         setCookie("acceptat_banner",true,60000);
-        document.getElementById("banner").style.display="none";
+        document.getElementById("disclaimer-banner").style.display="none";
     }
 })
