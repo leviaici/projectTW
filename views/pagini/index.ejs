@@ -25,15 +25,6 @@
                <%- locals.succesLogin %>
             <% }  %>
         <p><%- locals.mesajLogin %></p>
-        <%
-            // var valori = [];
-            // while(valori.length < 5) {
-            //     var indiceAleator=Math.floor(Math.random()*locals.produse.length);
-            //     if(!valori.includes(indiceAleator))
-            //         valori.push(indiceAleator);
-            // }
-            // alert(valori);
-        %>
         <div class="d-flex justify-content-center">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
@@ -45,38 +36,38 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src="./resurse/imagini/galerie/prajitura-ciocolata.png" alt="First slide">
+                        <img class="d-block w-100" src="/resurse/imagini/produse/<%- locals.produse[0].imagine %>" alt="First slide">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Prajitura cu ciocolata</h5>
-                            <p>Descriere prajitura cu ciocolata</p>
+                            <h5><%- locals.produse[0].nume%></h5>
+                            <p><%- locals.produse[0].descriere%></p>
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="./resurse/imagini/galerie/gogosi.png" alt="Second slide">
+                        <img class="d-block w-100" src="/resurse/imagini/produse/<%- locals.produse[1].imagine %>" alt="Second slide">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Gogosi</h5>
-                            <p>Descriere gogosi</p>
+                            <h5><%- locals.produse[1].nume%></h5>
+                            <p><%- locals.produse[1].descriere%></p>
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="./resurse/imagini/galerie/tort-trandafiri.png" alt="Third slide">
+                        <img class="d-block w-100" src="/resurse/imagini/produse/<%- locals.produse[2].imagine %>" alt="Third slide">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Tort cu trandafiri</h5>
-                            <p>Descriere tort cu trandafiri</p>
+                            <h5><%- locals.produse[2].nume%></h5>
+                            <p><%- locals.produse[2].descriere%></p>
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="./resurse/imagini/galerie/tarta-afine.png" alt="Fourth slide">
+                        <img class="d-block w-100" src="/resurse/imagini/produse/<%- locals.produse[3].imagine %>" alt="Fourth slide">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Tarta cu afine</h5>
-                            <p>Descriere tarta cu afine</p>
+                            <h5><%- locals.produse[3].nume%></h5>
+                            <p><%- locals.produse[3].descriere%></p>
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="./resurse/imagini/galerie/briose-frisca.png" alt="Fifth slide">
+                        <img class="d-block w-100" src="/resurse/imagini/produse/<%- locals.produse[4].imagine %>" alt="Fifth slide">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Briose cu frisca</h5>
-                            <p>Descriere briose cu frisca</p>
+                            <h5><%- locals.produse[4].nume%></h5>
+                            <p><%- locals.produse[4].descriere%></p>
                         </div>
                     </div>
                 </div>

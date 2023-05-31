@@ -180,12 +180,40 @@ app.get(["/index","/","/home","/login" ], async function(req, res){
     let sir=req.session.mesajLogin;
     console.log("mesajLogin:",sir)
     req.session.mesajLogin=null;
-    res.render("pagini/index" , {ip: req.ip, a: 10, b:20, imagini: obGlobal.obImagini.imagini, mesajLogin:sir});
+    // res.render("pagini/index" , {ip: req.ip, a: 10, b:20, imagini: obGlobal.obImagini.imagini, mesajLogin:sir});
     //CLIENT QUERY
+    function carouselRandom() {
+        client.query("select * from poze", function(err, rez) { // AICI
+            if(err) {
+                console.log(err);
+                afisareEroare(rez, 2);
+            } else {
+                var valori = [];
+                while(valori.length < 5) {
+                    var indiceAleator=Math.ceil(Math.random()*rez.rowCount);
+                    if(!valori.includes(indiceAleator))
+                    valori.push(indiceAleator);
+                }
+                console.log(valori);
+                client.query("select * from poze where id=" + valori[0] + " or id=" + valori[1] + " or id =" + valori[2]+ " or id =" + valori[3]+ " or id =" + valori[4], function(error, rezultat) {
+                    if(error) {
+                        console.log(error);
+                        afisareEroare(rezultat, 2);
+                    } else {
+                        console.log(rezultat.rows);
+                        res.render("pagini/index", {ip: req.ip, a: 10, b:20, imagini: obGlobal.obImagini.imagini, mesajLogin:sir, produse:rezultat.rows});
+                    }
+                })
+            }
+        });
+    }
+
+    carouselRandom();
+    // setInterval(carouselRandom, 15000);
 })
 
 app.get(["/","/index","/home","/login"], async function(req, res){
-    console.log("ceva");
+    // console.log("ceva");
 
     console.log(req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse))
 
