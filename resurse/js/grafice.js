@@ -111,9 +111,9 @@ function actualizeazaDateFacturi(){
         console.log(obFacturi);
         let dateGrafic={}
         for (let factura of obFacturi){
-            for(let prajitura of factura.produse){
-                dateGrafic[prajitura.nume]=dateGrafic[prajitura.nume]?dateGrafic[prajitura.nume]+1:1
-                if(!culoriDate[prajitura.nume])culoriDate[prajitura.nume]=culoareRandom();
+            for(let poza of factura.produse){
+                dateGrafic[poza.nume]=dateGrafic[poza.nume]?dateGrafic[poza.nume]+1:1
+                if(!culoriDate[poza.nume])culoriDate[poza.nume]=culoareRandom();
             }
         }
         creareGraficFacturi(dateGrafic);

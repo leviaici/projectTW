@@ -13,12 +13,12 @@ const session=require('express-session');
 const Drepturi = require("./module_proprii/drepturi.js");
 
 const QRCode= require('qrcode');
-// const puppeteer=require('puppeteer');
-// const mongodb=require('mongodb');
-// const helmet=require('helmet');
-// const xmljs=require('xml-js');
+const puppeteer=require('puppeteer');
+const mongodb=require('mongodb');
+const helmet=require('helmet');
+const xmljs=require('xml-js');
 
-// const request=require("request");
+const request=require("request");
  
 // AccesBD.getInstanta().select( // DE MODIFICAT
 //     {tabel:"prajituri",
@@ -50,8 +50,8 @@ obGlobal={
     optiuniMeniu:[],
     protocol:"http://",
     numeDomeniu:"localhost:8080",
-    // clientMongo:mongodb.MongoClient,
-    // bdMongo:null
+    clientMongo:mongodb.MongoClient,
+    bdMongo:null
 }
 
 client.query("select * from unnest(enum_range(null::tipuri_poze))", function(err, rezCategorie) {
@@ -67,15 +67,15 @@ console.log("Folder proiect", __dirname);
 console.log("Cale fisier", __filename);
 console.log("Director de lucru", process.cwd());
 
-// var url = "mongodb://localhost:27017";//pentru versiuni mai vechi de Node
-// var url = "mongodb://0.0.0.0:27017";
+var url = "mongodb://localhost:27017";//pentru versiuni mai vechi de Node
+var url = "mongodb://0.0.0.0:27017";
  
-// obGlobal.clientMongo.connect(url, function(err, bd) {
-//     if (err) console.log(err);
-//     else{
-//         obGlobal.bdMongo = bd.db("proiect_web");
-//     }
-// });
+obGlobal.clientMongo.connect(url, function(err, bd) {
+    if (err) console.log(err);
+    else{
+        obGlobal.bdMongo = bd.db("proiect_web");
+    }
+});
 
 app.use(session({ // aici se creeaza proprietatea session a requestului (pot folosi req.session)
     secret: 'abcdefg',//folosit de express session pentru criptarea id-ului de sesiune
@@ -363,77 +363,77 @@ async function genereazaPdf(stringHTML,numeFis, callback) {
         callback(numeFis);
 }
 
-// app.post("/cumpara",function(req, res){
-//     console.log(req.body);
-//     console.log("Utilizator:", req?.utilizator);
-//     console.log("Utilizator:", req?.utilizator?.rol?.areDreptul?.(Drepturi.cumparareProduse));
-//     console.log("Drept:", req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse));
-//     if (req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse)){
-//         AccesBD.getInstanta().select({
-//             tabel:"poze",
-//             campuri:["*"],
-//             conditiiAnd:[`id in (${req.body.ids_prod})`]
-//         }, function(err, rez){
-//             if(!err  && rez.rowCount>0){
-//                 console.log("produse:", rez.rows);
-//                 let rezFactura= ejs.render(fs.readFileSync("./views/pagini/factura.ejs").toString("utf-8"),{
-//                     protocol: obGlobal.protocol, 
-//                     domeniu: obGlobal.numeDomeniu,
-//                     utilizator: req.session.utilizator,
-//                     produse: rez.rows
-//                 });
-//                 console.log(rezFactura);
-//                 let numeFis=`./temp/factura${(new Date()).getTime()}.pdf`;
-//                 genereazaPdf(rezFactura, numeFis, function (numeFis){
-//                     mesajText=`Stimate ${req.session.utilizator.username} aveti mai jos rezFactura.`;
-//                     mesajHTML=`<h2>Stimate ${req.session.utilizator.username},</h2> aveti mai jos rezFactura.`;
-//                     req.utilizator.trimiteMail("Factura", mesajText,mesajHTML,[{
-//                         filename:"factura.pdf",
-//                         content: fs.readFileSync(numeFis)
-//                     }] );
-//                     res.send("Totul e bine!");
-//                 });
-//                 rez.rows.forEach(function (elem){ elem.cantitate=1});
-//                 let jsonFactura= {
-//                     data: new Date(),
-//                     username: req.session.utilizator.username,
-//                     produse:rez.rows
-//                 }
-//                 if(obGlobal.bdMongo){
-//                     obGlobal.bdMongo.collection("facturi").insertOne(jsonFactura, function (err, rezmongo){
-//                         if (err) console.log(err)
-//                         else console.log ("Am inserat factura in mongodb");
+app.post("/cumpara",function(req, res){
+    console.log(req.body);
+    console.log("Utilizator:", req?.utilizator);
+    console.log("Utilizator:", req?.utilizator?.rol?.areDreptul?.(Drepturi.cumparareProduse));
+    console.log("Drept:", req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse));
+    if (req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse)){
+        AccesBD.getInstanta().select({
+            tabel:"poze",
+            campuri:["*"],
+            conditiiAnd:[`id in (${req.body.ids_prod})`]
+        }, function(err, rez){
+            if(!err  && rez.rowCount>0){
+                console.log("produse:", rez.rows);
+                let rezFactura= ejs.render(fs.readFileSync("./views/pagini/factura.ejs").toString("utf-8"),{
+                    protocol: obGlobal.protocol, 
+                    domeniu: obGlobal.numeDomeniu,
+                    utilizator: req.session.utilizator,
+                    produse: rez.rows
+                });
+                console.log(rezFactura);
+                let numeFis=`./temp/factura${(new Date()).getTime()}.pdf`;
+                genereazaPdf(rezFactura, numeFis, function (numeFis){
+                    mesajText=`Stimate ${req.session.utilizator.username} aveti mai jos factura.`;
+                    mesajHTML=`<h2>Stimate ${req.session.utilizator.username},</h2> aveti mai jos factura.`;
+                    req.utilizator.trimiteMail("Factura", mesajText,mesajHTML,[{
+                        filename:"factura.pdf",
+                        content: fs.readFileSync(numeFis)
+                    }] );
+                    res.send("Totul e bine!");
+                });
+                rez.rows.forEach(function (elem){ elem.cantitate=1});
+                let jsonFactura= {
+                    data: new Date(),
+                    username: req.session.utilizator.username,
+                    produse:rez.rows
+                }
+                if(obGlobal.bdMongo){
+                    obGlobal.bdMongo.collection("facturi").insertOne(jsonFactura, function (err, rezmongo){
+                        if (err) console.log(err)
+                        else console.log ("Am inserat factura in mongodb");
 
-//                         obGlobal.bdMongo.collection("facturi").find({}).toArray(
-//                             function (err, rezInserare){
-//                                 if (err) console.log(err)
-//                                 else console.log (rezInserare);
-//                         })
-//                     })
-//                 }
-//             }
-//         })
-//     }
-//     else{
-//         res.send("Nu puteti cumpara daca nu sunteti logat sau nu aveti dreptul!");
-//     }
+                        obGlobal.bdMongo.collection("facturi").find({}).toArray(
+                            function (err, rezInserare){
+                                if (err) console.log(err)
+                                else console.log (rezInserare);
+                        })
+                    })
+                }
+            }
+        })
+    }
+    else{
+        res.send("Nu puteti cumpara daca nu sunteti logat sau nu aveti dreptul!");
+    }
     
-// });
+});
 
 app.get("/grafice", function(req,res){
     if (! (req?.session?.utilizator && req.utilizator.areDreptul(Drepturi.vizualizareGrafice))){
-        afisEroare(res, 403);
+        afisareEroare(res, 403);
         return;
     }
     res.render("pagini/grafice");
 
 })
 
-// app.get("/update_grafice",function(req,res){
-//     obGlobal.bdMongo.collection("facturi").find({}).toArray(function(err, rezultat) {
-//         res.send(JSON.stringify(rezultat));
-//     });
-// })
+app.get("/update_grafice",function(req,res){
+    obGlobal.bdMongo.collection("facturi").find({}).toArray(function(err, rezultat) {
+        res.send(JSON.stringify(rezultat));
+    });
+})
 
 app.get("/produs/:id",function(req, res){
     console.log(req.params);
