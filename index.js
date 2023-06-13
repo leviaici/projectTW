@@ -321,7 +321,7 @@ app.get("/produse",function(req, res){
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////Cos virtual
 app.post("/produse_cos",function(req, res){
-    console.log(req.body);
+    // console.log(req.body);
     if(req.body.ids_prod.length!=0){
         //TO DO : cerere catre AccesBD astfel incat query-ul sa fi `select nume, descriere, pret, gramaj, imagine from prajituri where id in (lista de id-uri)`
         AccesBD.getInstanta().select({tabel:"poze", campuri:"nume,descriere,pret,distanta_focala,tip_produs,subiecte,categ_poza,locatie,family_friendly,imagine,data_creare".split(","),conditiiAnd:[`id in (${req.body.ids_prod})`]},
@@ -364,7 +364,7 @@ async function genereazaPdf(stringHTML,numeFis, callback) {
 }
 
 app.post("/cumpara",function(req, res){
-    console.log(req.body);
+    // console.log(req.body);
     console.log("Utilizator:", req?.utilizator);
     console.log("Utilizator:", req?.utilizator?.rol?.areDreptul?.(Drepturi.cumparareProduse));
     console.log("Drept:", req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse));

@@ -1,7 +1,6 @@
 window.addEventListener("load",function(){
 
 	prod_sel=localStorage.getItem("cos_virtual");
-
 	if (prod_sel){
 		var vect_ids=prod_sel.split(",");
 		fetch("/produse_cos", {		
@@ -21,19 +20,20 @@ window.addEventListener("load",function(){
 		})
 		.then(function(rasp){ console.log(rasp); x=rasp.json(); console.log(x); return x})
 		.then(function(objson) {
-	
 			console.log(objson);//objson e vectorul de produse
 			let main=document.getElementsByTagName("main")[0];
 			let btn=document.getElementById("cumpara");
-
+			
+			// this.alert("BAAA2");
 			for (let prod of objson){
 				let article=document.createElement("article");
-				article.classList.add("cos-virtual");
-				var h2=document.createElement("h2");
-				h2.innerHTML=prod.nume;
-				article.appendChild(h2);
+				article.classList.add("produs");
+				var h3=document.createElement("h3");
+				h3.innerHTML=prod.nume;
+				article.appendChild(h3);
 				let imagine=document.createElement("img");
-				imagine.src="/resurse/imagini/produse/"+prod.imagine;
+				imagine.src="./imagini/produse/"+prod.imagine;
+				console.log(imagine.src);
 				article.appendChild(imagine);
 				
 				let descriere=document.createElement("p");
@@ -50,6 +50,7 @@ window.addEventListener("load",function(){
 
 		document.getElementById("cumpara").onclick=function(){
 			prod_sel=localStorage.getItem("cos_virtual");// "1,2,3"
+
 			if (prod_sel){
 				var vect_ids=prod_sel.split(",");
 				fetch("/cumpara", {		
@@ -67,7 +68,7 @@ window.addEventListener("load",function(){
 				})
 				.then(function(rasp){ console.log(rasp); return rasp.text()})
 				.then(function(raspunsText) {
-			
+					
 					console.log(raspunsText);
 					if(raspunsText){
 						localStorage.removeItem("cos_virtual")

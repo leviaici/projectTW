@@ -15,13 +15,13 @@
                 <li><a href = "index"><i class="fa-solid fa-house"></i><p id = "main_page"> Acasă</p></a></li>
                 <li><div>Cuprins</div>
                     <ul class="submenu">
-                        <li><a href="#detaliiAutor">Autor</a></li>
-                        <li><a href="#deVanzare">De vânzare</a></li>
-                        <li><a href="#tabel">Program</a></li>
-                        <li><a href="#anunturi">Anunțuri</a></li>
-                        <li><a href="#listaUtilizatori">Listă</a></li>
-                        <li><a href="#dateUtilizator">Date</a></li>
-                        <li><a href="#comanda">Ajutor</a></li>
+                        <li><a href="/index#detaliiAutor">Autor</a></li>
+                        <li><a href="/index#deVanzare">De vânzare</a></li>
+                        <li><a href="/index#tabel">Program</a></li>
+                        <li><a href="/index#anunturi">Anunțuri</a></li>
+                        <li><a href="/index#listaUtilizatori">Listă</a></li>
+                        <li><a href="/index#dateUtilizator">Date</a></li>
+                        <li><a href="/index#comanda">Ajutor</a></li>
                     </ul>
                 </li>
                 <li><div>Magazin</div>
@@ -33,14 +33,14 @@
                         <li><a href="/produse?tip=portret">Portrete</a></li>
                     </ul>
                 </li>
-                <li><a href="#comanda">FAQ</a></li>
+                <li><a href="/index#comanda">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
                     <li><div>Contul meu</div>
                         <ul class="submenu">                        
-                        <li><a href="#">Informații</a></li>
-                        <li><a href="#">Comenzi</a></li>
-                        <li><a href="#">Coșul meu</a></li>
-                        <li><a href="#">Log in/Out</a></li>
+                        <li><a href="#user">Informații</a></li>
+                        <!-- <li><a href="#">Comenzi</a></li> -->
+                        <li><a href="/cos-virtual">Coșul meu</a></li>
+                        <li><a href="#user">Log in/Out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -74,7 +74,7 @@
             </li>
         <% } %>
         <% if(locals.utilizator) { %>
-            <li><div><%- locals.utilizator.username %></div>
+            <li><div id ="user"><%- locals.utilizator.username %></div>
                 <ul>
                     <li><a href="/profil">Profil</a></li>
                     <li><a href="/logout">Logout</a></li>
