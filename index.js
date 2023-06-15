@@ -781,7 +781,36 @@ function afisareEroare(res, _identificator, _titlu="titlu default", _text, _imag
     
 
 }
+// -------------------------------------------------------------------CHAT---------------------------------------------------------------------------
 
+// initializari socket.io
+const http=require('http')
+const socket = require('socket.io');
+const server = new http.createServer(app);  
+var  io = socket(server)
+io = io.listen(server);//asculta pe acelasi port ca si serverul
+
+io.on("connection", (socket) => {  
+    console.log("Conectare!");
+	//if(!conexiune_index)
+	//	conexiune_index=socket
+    socket.on('disconnect', () => {conexiune_index=null;console.log('Deconectare')});
+});
+
+app.post('/mesaj', function(req, res) {
+    var form = new formidable.IncomingForm();
+	form.parse(req, function(err, fields, files) {
+        console.log("primit mesaj");
+        console.log(fields);
+		io.sockets.emit('mesaj_nou', fields.nume, fields.culoare, fields.mesaj);
+        res.send("ok");
+    });
+});
+
+s_port=process.env.PORT || 5001;
+server.listen(s_port);
+
+console.log('Serverul a pornit pe portul '+ s_port);
 
 app.listen(8080);
 console.log("Serverul a pornit");

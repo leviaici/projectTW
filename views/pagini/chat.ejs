@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ro">
+	<head>
+        <title>Chat</title>
+        <style>
+            #mesaje_chat{
+                border:1px solid black;
+                height:200px;
+                overflow:auto;
+                width:200px;
+            }
+        </style>
+        <script type="text/javascript" src=".../node_modules/socket.io/component-emitter/index.js"></script> 
+        <script>port = 5001;</script>
+        <script>
+            socketUrl = "../../";
+            if(document.location.href.indexOf("localhost") != -1) {  
+                socketUrl = "http://127.0.0.1:"+port;
+            }
+            // const socket = io(socketUrl,{reconnect: true});  
+            alert("ORICE");
+            socket = io();
+            socket.on("mesaj_nou", function(nume, culoare, mesaj) {  
+                var chat=document.getElementById("mesaje_chat");
+                chat.innerHTML+=`<p> ${nume} : <span style='color:${culoare}'>${mesaj}</span></p> `;
+                //ca sa scrolleze la final
+                chat.scrollTop=chat.scrollHeight;
+            });
+            
+            function trimite(){
+                var culoare=document.getElementById("culoare").value;
+                var nume=document.getElementById("nume").value;
+                var mesaj=document.getElementById("mesaj").value;
+                // var chat=document.getElementById("mesaje_chat"); // CA SA AFISEZE CEVA DAR NU E CORECT
+                // chat.innerHTML+=`<p> ${nume} : <span style='color:${culoare}'>${mesaj}</span></p> `;
+                // //ca sa scrolleze la final
+                // chat.scrollTop=chat.scrollHeight;
+                fetch("/mesaj",  {		
+                
+                            method: "POST",
+                            headers:{'Content-Type': 'application/json'},
+                            
+                            mode: 'cors',		
+                            cache: 'default',
+                            body: JSON.stringify({
+                                culoare: culoare,
+                                nume:nume,
+                                mesaj:mesaj
+                            })
+                        })
+            }
+        </script>
+	</head>
+	<body>
+		<div id="chat">
+			<div id="mesaje_chat">
+			</div>
+			<label>
+			Nume: <input type="text" id="nume" name="nume" value="ionel">
+			</label><br/>
+			<label>
+			Mesaj: <textarea id="mesaj" name="mesaj" value="bau! "></textarea>
+			</label><br/>
+			<label>
+			Culoare: <select id="culoare" name="culoare">
+			<option value="red">red</option>
+			<option value="green">green</option>
+			<option value="blue">blue</option>
+			</select>
+			</label><br/>
+			<button onclick="trimite()">ok</button>
+		</div>
+		<div contenteditable style="border:1px solid black;">Ceva</div>
+
+	</body>
+</html>
