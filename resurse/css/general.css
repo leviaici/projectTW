@@ -132,6 +132,7 @@ s {
     "f-deVanzare f-deVanzare f-deVanzare f-deVanzare" 
     "f-calendar f-tabel f-tabel f-anunturi"
     "f-listaUtilizatori f-dateUtilizator f-comanda f-comanda";
+    padding: 10px;
 }
 
 a:hover, a:visited, a:link, a:active {
@@ -330,19 +331,6 @@ a[href^="https"]:hover {
 a:active {
     border: 2px solid black !important;
 }
-
-/* #form_inreg {
-    display: grid;
-    grid-template-areas: "f-user f-parola";
-}
-
-#inp-username {
-    grid-area: f-user;
-}
-
-#parl {
-    grid-area: f-parola;
-} */
 
 #carouselExampleIndicators {
     width: 800px;

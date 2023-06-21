@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html  lang="ro">
     <head>
-        <meta name = "keywords" content = "magazin,fotografii,fotografie,poze,imagini,imagine,vanzare,apusuri,rasarituri,peisaje,portrete,stoc,camera,Canon,Tamron,Godox">
-        <meta name = "description" content = "Magazin online de fotografii digitale">
-        <link rel = "stylesheet" href = "../resurse/css/customizare_bootstrap.css" type = "text/css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
         <title>Levi's shop</title>
         <%- include("../fragmente/head.ejs")  %>
     </head>
@@ -163,6 +159,7 @@
                 </details>
             </section>
             <section id = "calendar">
+                <br><hr><hr><hr><hr>
                 <%
                 dataServer=new Date();
                 sirData=dataServer.getHours()+":"+dataServer.getMinutes()+":"+dataServer.getSeconds()
@@ -239,10 +236,56 @@
                 <section id = "peisaje">
                     <h2>Peisaje</h2>
                     <p>Aici vor fi postate peisajele.</p>
+                    <div id="grid-galerie">
+                        <% counter = 0; %>
+                        <% for (let imag of locals.imagini) {
+                            d=new Date()
+                            var v_timp=["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+                            let timp = imag.timp.split("-");
+                            if(imag.timp && (timp[0] <= v_timp[d.getHours()] && timp[1] > v_timp[d.getHours()]) && counter < 10) {
+                                %>
+                                <figure>
+                                    <picture>
+                                        <source srcset="<%- imag.fisier_mic %>" media="(max-width:700px)"/>
+                                        <source srcset="<%- imag.fisier_mediu %>" media="(max-width:1000px)"/>
+                                        <img src="<%- imag.cale_imagine %>" alt="imagine">
+                                    </picture>
+                                    <figcaption class="caption-style"><%- imag.nume %></figcaption>
+                                </figure>
+                            <% } 
+                                counter++;
+                                if (counter >= 10) {   
+                                    break;
+                                } 
+                            }  %>
+                    </div>
                 </section>
                 <section id = "portrete">
                     <h2>Portrete</h2>
                     <p>Aici vor fi postate portretele.</p>
+                    <div id="grid-galerie">
+                        <% counter = 0; %>
+                        <% for (let imag of locals.imagini) {
+                            d=new Date()
+                            var v_timp=["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+                            let timp = imag.timp.split("-");
+                            if(imag.timp && (timp[0] <= v_timp[d.getHours()] && timp[1] > v_timp[d.getHours()]) && counter < 10) {
+                                %>
+                                <figure>
+                                    <picture>
+                                        <source srcset="<%- imag.fisier_mic %>" media="(max-width:700px)"/>
+                                        <source srcset="<%- imag.fisier_mediu %>" media="(max-width:1000px)"/>
+                                        <img src="<%- imag.cale_imagine %>" alt="imagine">
+                                    </picture>
+                                    <figcaption class="caption-style"><%- imag.nume %></figcaption>
+                                </figure>
+                            <% } 
+                                counter++;
+                                if (counter >= 10) {   
+                                    break;
+                                } 
+                            }  %>
+                    </div>
                 </section>
             </section>
             <section id = "tabel">

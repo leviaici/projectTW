@@ -17,7 +17,7 @@
 			"cale_imagine":"gogosi.png",
 			"nume":"Gogoși glazurate",
 			"descriere": "Descriere",
-			"timp":"09:00-23:00"
+			"timp":"09:00-15:00"
 		},
 		{
 			"cale_imagine":"tort-scortisoara.png",
@@ -41,37 +41,37 @@
 			"cale_imagine":"tort-trandafiri.png",
 			"nume":"Tort special",
 			"descriere": "Descriere",
-			"timp":"08:00-23:00"
+			"timp":"20:00-23:00"
 		},
 		{
 			"cale_imagine":"tort-trandafiri.png",
-			"nume":"Tort special",
+			"nume":"Tort cu trandifiri",
 			"descriere": "Descriere",
-			"timp":"08:00-23:00"
+			"timp":"21:00-23:00"
 		},
 		{
 			"cale_imagine":"tort-trandafiri.png",
-			"nume":"Tort special",
+			"nume":"Trandafiri speciali",
 			"descriere": "Descriere",
-			"timp":"08:00-23:00"
+			"timp":"10:00-14:00"
 		},
 		{
 			"cale_imagine":"tort-trandafiri.png",
-			"nume":"Tort special",
+			"nume":"Tort plin de trandafiri",
 			"descriere": "Descriere",
-			"timp":"08:00-23:00"
+			"timp":"15:00-16:00"
 		},
 		{
 			"cale_imagine":"tort-trandafiri.png",
-			"nume":"Tort special",
+			"nume":"Tort fara tort",
 			"descriere": "Descriere",
-			"timp":"08:00-23:00"
+			"timp":"07:00-19:00"
 		},
 		{
 			"cale_imagine":"tort-trandafiri.png",
-			"nume":"Tort special",
+			"nume":"Tort de nu se vede",
 			"descriere": "Descriere",
-			"timp":"08:00-23:00"
+			"timp":"01:00-03:00"
 		}
 	]
 }

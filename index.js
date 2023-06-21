@@ -787,7 +787,7 @@ function afisareEroare(res, _identificator, _titlu="titlu default", _text, _imag
 const http=require('http')
 const socket = require('socket.io');
 const server = new http.createServer(app);  
-var  io = socket(server)
+var io = socket(server);
 io = io.listen(server);//asculta pe acelasi port ca si serverul
 
 io.on("connection", (socket) => {  
@@ -807,10 +807,6 @@ app.post('/mesaj', function(req, res) {
     });
 });
 
-s_port=process.env.PORT || 5001;
-server.listen(s_port);
 
-console.log('Serverul a pornit pe portul '+ s_port);
-
-app.listen(8080);
+server.listen(8080);
 console.log("Serverul a pornit");
