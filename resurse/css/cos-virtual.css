@@ -1,0 +1,10 @@
+main{
+    --padd-main:1rem;
+    padding-left:var(--padd-main);
+    padding-right:var(--padd-main);
+}
+
+main img {
+    width: 400px;
+    height: 400px;
+}

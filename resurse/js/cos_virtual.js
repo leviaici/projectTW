@@ -23,29 +23,58 @@ window.addEventListener("load",function(){
 			console.log(objson);//objson e vectorul de produse
 			let main=document.getElementsByTagName("main")[0];
 			let btn=document.getElementById("cumpara");
-			
-			// this.alert("BAAA2");
+			let counter = 0;
 			for (let prod of objson){
 				let article=document.createElement("article");
 				article.classList.add("produs");
 				var h3=document.createElement("h3");
-				h3.innerHTML=prod.nume;
+				h3.innerHTML="<br><b>"+prod.nume+"</b>";
 				article.appendChild(h3);
 				let imagine=document.createElement("img");
-				imagine.src="./imagini/produse/"+prod.imagine;
+				imagine.src="../resurse/imagini/produse/"+prod.imagine;
 				console.log(imagine.src);
 				article.appendChild(imagine);
 				
 				let descriere=document.createElement("p");
-				descriere.innerHTML=prod.descriere+" <b>Pret:</b>"+prod.pret;
+				descriere.innerHTML=prod.descriere+"<br><b>Pret: </b>"+prod.pret;
 				article.appendChild(descriere);
+
+				let btnDelete = document.createElement("button");
+				btnDelete.className = "btn btn-primary";
+				btnDelete.id = "delete";
+				btnDelete.name = counter++;
+				btnDelete.innerHTML = "Sterge din cos";
+
+				let articleToDelete = article; // Stochează referința la elementul article
+
+				btnDelete.onclick = function() {
+					var prod_sel = localStorage.getItem("cos_virtual");
+					var vect_ids = prod_sel.split(",");
+					vect_ids.sort(function(a, b) {
+						return parseInt(a) - parseInt(b);
+					});
+					// alert(vect_ids);
+
+					var idToDelete = parseInt(this.name);
+
+					// alert(idToDelete);
+					// alert(vect_ids[idToDelete]);
+    				vect_ids.splice(idToDelete, 1); // șterge elementul din vector
+					prod_sel = vect_ids.join(",");
+					// alert(prod_sel);
+					localStorage.setItem("cos_virtual", prod_sel);
+
+					// Remove the deleted product from the DOM
+					articleToDelete.remove();
+
+				};
+				article.appendChild(btnDelete);
+
 				main.insertBefore(article, btn);
 			}
 	
 		}
 		).catch(function(err){console.log(err)});
-
-
 
 
 		document.getElementById("cumpara").onclick=function(){
@@ -84,7 +113,5 @@ window.addEventListener("load",function(){
 	}
 	else{
 		document.getElementsByTagName("main")[0].innerHTML="<p>Nu aveti nimic in cos!</p>";
-	}
-	
-	
+	}		
 });

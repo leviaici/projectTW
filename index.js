@@ -246,7 +246,7 @@ app.get(["/","/index","/home","/login"], async function(req, res){
     
                 //generare evenimente random pentru calendar 
                 
-                var texteEvenimente=["Eveniment important", "Festivitate", "Prajituri gratis", "Zi cu soare", "Aniversare"];
+                var texteEvenimente=["Eveniment important", "Festivitate", "Giveaway", "Sedinta foto gratis", "Aniversare"];
                 dataCurenta=new Date();
                 for(i=0;i<texteEvenimente.length;i++){
                     evenimente.push({data: new Date(dataCurenta.getFullYear(), dataCurenta.getMonth(), Math.ceil(Math.random()*27) ), text:texteEvenimente[i]});
@@ -324,12 +324,14 @@ app.post("/produse_cos",function(req, res){
     // console.log(req.body);
     if(req.body.ids_prod.length!=0){
         //TO DO : cerere catre AccesBD astfel incat query-ul sa fi `select nume, descriere, pret, gramaj, imagine from prajituri where id in (lista de id-uri)`
-        AccesBD.getInstanta().select({tabel:"poze", campuri:"nume,descriere,pret,distanta_focala,tip_produs,subiecte,categ_poza,locatie,family_friendly,imagine,data_creare".split(","),conditiiAnd:[`id in (${req.body.ids_prod})`]},
+        AccesBD.getInstanta().select({tabel:"poze", campuri:"nume,descriere,pret,distanta_focala,tip_produs,subiecte,categorie,locatie,family_friendly,imagine,data_creare".split(","),conditiiAnd:[`id in (${req.body.ids_prod})`]},
         function(err, rez){
-            if(err)
+            if(err) {
                 res.send([]);
-            else
-                res.send(rez.rows); 
+                console.log(err);
+            } else {
+                res.send(rez.rows);
+            }
         });
 }
     else{
