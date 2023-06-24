@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <title>Levi's shop</title>
+  <%- include("../fragmente/head.ejs") %>
+  <link rel="stylesheet" href="../resurse/css/galerie_animata.css" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+</head>
+<body>
+  <%- include("../fragmente/header.ejs") %>
+  <main>
+    <%  var numere = [4, 9, 16]; //aici de inlocuit numarul de imagini
+        var indiceAleator = Math.floor(Math.random() * numere.length);
+        var numarAleator = numere[indiceAleator]; %>
+    <div id="galerie2" class="galerie" style="--nrImagini: <%Math.sqrt(numarAleator)%>">
+        <div class="grid_2col">
+        <%var i=0;
+        for (let prod of locals.produse) { 
+            i=i + 1;
+            if(i> numarAleator) { break; }
+            var nume_imag=prod.nume %>
+            <figure>
+                <img src="/resurse/imagini/produse/<%- prod.imagine %>" alt=" imagine">
+                <figcaption><%-prod.descriere %></figcaption>
+            </figure>
+        <% } %>
+        </div>
+        </div>
+        </main>
+        <%- include("../fragmente/footer.ejs") %>
+</body>
+</html>

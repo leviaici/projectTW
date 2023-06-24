@@ -39,7 +39,7 @@ window.addEventListener("load", function() {
     document.getElementById("filtrare").onclick=function() {
         var counter=0;
         let val_nume=document.getElementById("inp-nume").value.toLowerCase();
-
+        
         let val_cheie=document.getElementById("inp-cheie").value.toLowerCase();
         
         let radioButtons=document.getElementsByName("gr_rad");
@@ -142,6 +142,13 @@ window.addEventListener("load", function() {
             }
             counter++;
         }
+
+        const filters = {
+            val_nume,val_cheie,val_subiecte,val_pret,val_categorie,val_categoriem,val_sfw,val_noutati,selectedValuesCategoriem
+        };
+        if (getCookie("acceptat_banner"))
+            setLastFiltersCookie(filters);
+
         afisareFiltre();
     }
 

@@ -26,6 +26,15 @@ function deleteAllCookies(){
     }
 }
 
+function setLastFiltersCookie(filters) {
+    const jsonString = JSON.stringify(filters);
+    setCookie("last_filters", jsonString, 604800000); // Expires after 1 week 
+}
+
+function resetLastFiltersCookie() {
+    deleteCookie("last_filters");
+}
+
 window.addEventListener("load", function(){
     if (getCookie("acceptat_banner")){
         document.getElementById("disclaimer-banner").style.display="none";

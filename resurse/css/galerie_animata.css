@@ -1,0 +1,87 @@
+  .galerie{
+    width:480px;
+    height:320px;
+    border:1px solid black;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .galerie figcaption{
+    position:absolute;
+    bottom:0;
+    background:rgba(255,255,255,0.7);
+    width:100%;
+    text-align:center;
+  }
+.galerie figure{
+    position:relative;
+    width:480px;
+    height:320px;
+}
+
+#galerie2 .grid_2col{
+  --pozitie: 0px;
+    display:grid;
+    width:960px;
+    grid-template-columns: repeat(var(--nrImagini), 480px);
+    grid-template-rows: repeat(var(--nrImagini), 320px);
+    /* grid-template-columns: repeat(2, 480px);
+    grid-template-rows: repeat(2, 320px); */
+    grid-row-gap:0;
+    grid-column-gap:0;
+    position:absolute;
+    top:0;
+    left:0;
+    animation-name:gal9;
+    animation-direction:alternate;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    animation-duration:28s;	
+    transform-origin: 0 0;
+ }
+ #galerie2 .grid_2col:hover{
+    animation-play-state: paused;
+ }
+
+ .galerie figcaption{
+    bottom:0px;
+ }
+
+@keyframes gal9{
+  4.16%{transform: scale(0.33)}
+  8.33%{transform: scale(1) translate(-960px)}
+  12.48%{transform: scale(1) translate(-960px)}
+  16.66%{transform: scale(0.33) translate(0)}
+  20.8%{transform: scale(1) translate(-480px)}
+  24.96%{transform: scale(1) translate(-480px)}
+  29.12%{transform: scale(0.33) translate(0)}
+  33.28%{transform: scale(1) translate(-480px, -320px)}
+  37.44%{transform: scale(1) translate(-480px, -320px)}
+  41.6%{transform: scale(0.33) translate(0)}
+  45.76%{transform: scale(1) translate(-960px,-320px)}
+  49.92%{transform: scale(1) translate(-960px,-320px)}
+  54.08%{transform: scale(0.33) translate(0)}
+  58.24%{transform: scale(1) translate(-960px,-640px)}
+  62.4%{transform: scale(1) translate(-960px,-640px)}
+  66.56%{transform: scale(0.33) translate(0)}
+  70.72%{transform: scale(1) translate(0px,-320px)}
+  74.88%{transform: scale(1) translate(0px,-320px)}
+  79.04%{transform: scale(0.33) translate(0)}
+  83.2%{transform: scale(1) translate(-480px,-640px)}
+  87.36%{transform: scale(1) translate(-480px,-640px)}
+  91.52%{transform: scale(0.33) translate(0)}
+  95.68%{transform: scale(1) translate(0px,-640px)}
+  98.84%{transform: scale(1) translate(0px,-640px)}
+  100%{transform: scale(0.33) translate(0)} 
+}
+
+#galerie2 figure{
+    width:480px;
+    height:320px;
+    position:relative;
+    overflow:hidden;
+}
+
+#galerie2 img{
+    height:100%;
+}
