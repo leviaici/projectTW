@@ -19,6 +19,9 @@ const helmet=require('helmet');
 const xmljs=require('xml-js');
 
 const request=require("request");
+
+const bodyParser = require('body-parser'); // pentru BLOCAREDEBLOCARE
+
  
 // AccesBD.getInstanta().select( // DE MODIFICAT
 //     {tabel:"prajituri",
@@ -82,6 +85,8 @@ app.use(session({ // aici se creeaza proprietatea session a requestului (pot fol
     resave: true,
     saveUninitialized: false
   }));
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 vectorFoldere=["temp", "temp1", "backup", "poze_uploadate"]
 for (let folder of vectorFoldere){
@@ -371,8 +376,8 @@ app.post("/cumpara",function(req, res){
                 console.log(rezFactura);
                 let numeFis=`./temp/factura${(new Date()).getTime()}.pdf`;
                 genereazaPdf(rezFactura, numeFis, function (numeFis){
-                    mesajText=`Stimate ${req.session.utilizator.username} aveti mai jos factura.`;
-                    mesajHTML=`<h2>Stimate ${req.session.utilizator.username},</h2> aveti mai jos factura.`;
+                    mesajText=`Stimate ${req.session.utilizator.nume} ${req.session.utilizator.prenume} aveti mai jos factura.`;
+                    mesajHTML=`<h2>Stimate ${req.session.utilizator.nume} ${req.session.utilizator.prenume},</h2> aveti mai jos factura.`;
                     req.utilizator.trimiteMail("Factura", mesajText,mesajHTML,[{
                         filename:"factura.pdf",
                         content: fs.readFileSync(numeFis)
@@ -613,8 +618,7 @@ app.post("/sterge_utiliz", function(req, res){
     if(req?.utilizator?.areDreptul?.(Drepturi.stergereUtilizatori)){
         var formular= new formidable.IncomingForm();
  
-        formular.parse(req,function(err, campuriText, campuriFile){
-           
+        formular.parse(req,function(err, campuriText, campuriFile){ 
                 AccesBD.getInstanta().delete({tabel:"utilizatori", conditiiAnd:[`id=${campuriText.id_utiliz}`]}, function(err, rezQuery){
                 console.log(err);
                 res.redirect("/useri");
@@ -625,7 +629,47 @@ app.post("/sterge_utiliz", function(req, res){
     }
 });
 
+app.post("/blocare", function(req, res) {
+    var userID = req.body.id_utiliz;
+    
+    if (req?.utilizator?.areDreptul?.(Drepturi.vizualizareUtilizatori)) {
+      AccesBD.getInstanta().update(
+        {
+          tabel: "utilizatori",
+          campuri: { blocat:`true` },
+          conditiiAnd: [`id=${userID}`]
+        },
+        function(err, rezQuery) {
+          console.log(err);
+          res.redirect("/useri");
+        }
+      );
+    } else {
+      afisareEroare(res, 403);
+    }
+});
 
+app.post("/deblocare", function(req, res) {
+    var userID = req.body.id_utiliz;
+    
+    if (req?.utilizator?.areDreptul?.(Drepturi.vizualizareUtilizatori)) {
+      AccesBD.getInstanta().update(
+        {
+          tabel: "utilizatori",
+          campuri: { blocat:`false` },
+          conditiiAnd: [`id=${userID}`]
+        },
+        function(err, rezQuery) {
+          console.log(err);
+          res.redirect("/useri");
+        }
+      );
+    } else {
+      afisareEroare(res, 403);
+    }
+});
+  
+  
 
 
 app.get("/logout", function(req, res){

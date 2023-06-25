@@ -25,8 +25,7 @@
                     var chat = document.getElementById("mesaje_chat");
                     var ora = new Date().toLocaleTimeString(); // Obținem ora curentă în formatul hh:mm:ss
                     
-                    var mesajFormatat = `(${ora}) <span class="user" style="font-style: italic; text-decoration: underline;">${nume}</span>: <span style='color:${culoare}; font-size:${font};'>${mesaj}</span>`;
-
+                    var mesajFormatat = `(${ora}) <span class="user" style="font-style: italic; text-decoration: underline;">${nume}</span>: <span class="ceva" style='font-size:${font} !important; color:${culoare};'>${mesaj}</span>`;
                     
                     chat.innerHTML += `<p>${mesajFormatat}</p>`; // Adăugăm mesajul formatat în chat
                     chat.scrollTop = chat.scrollHeight; // Scrolăm la finalul chat-ului

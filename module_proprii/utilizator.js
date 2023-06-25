@@ -15,7 +15,7 @@ class Utilizator{
     static numeDomeniu="localhost:8080";
     #eroare;
 
-    constructor({id, username, nume, prenume, email, parola, rol, culoare_chat="black", poza}={}) {
+    constructor({id, username, nume, prenume, email, parola, rol, culoare_chat="black", poza, blocat=false}={}) {
         this.id=id;
 
         //optional sa facem asta in constructor
@@ -31,7 +31,8 @@ class Utilizator{
         if(this.rol)
             this.rol=this.rol.cod? RolFactory.creeazaRol(this.rol.cod):  RolFactory.creeazaRol(this.rol);
         console.log(this.rol);
-
+        
+        this.blocat=blocat;
         this.#eroare="";
     }
 
@@ -56,6 +57,11 @@ class Utilizator{
         }
     }
 
+    set setareBlocare(blocare){
+        if(blocare == false || blocare == true)
+            this.blocat=blocare;
+    }
+
     checkUsername(username){
         return username!="" && username.match(new RegExp("^[A-Za-z0-9#_./]+$")) ;
     }
@@ -77,13 +83,14 @@ class Utilizator{
                 email:this.email,
                 culoare_chat:this.culoare_chat,
                 cod:token,
-                poza:this.poza}
+                poza:this.poza,
+                blocat:this.blocat}
             }, function(err, rez){
             if(err)
                 console.log(err);
             
-            utiliz.trimiteMail("Te-ai inregistrat cu succes","Username-ul tau este "+utiliz.username,
-            `<h1>Salut!</h1><p style='color:blue'>Username-ul tau este ${utiliz.username}.</p> <p><a href='http://${Utilizator.numeDomeniu}/cod/${utiliz.username}/${token}'>Click aici pentru confirmare</a></p>`,
+            utiliz.trimiteMail("Bună, " + utiliz.username,"Bine ai venit în comunitatea Levi's shop",
+            `<h1>Bună, ${utiliz.username}!</h1><p><span style='font-size:25px; background:lightblue;'>Bine ai venit</span>  în comunitatea Levi's shop!</p> <p><a href='http://${Utilizator.numeDomeniu}/cod/${utiliz.username}/${token}'>Click aici pentru confirmare</a></p>`,
             )
         });
     }

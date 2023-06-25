@@ -3,8 +3,6 @@
 	<head>
 		<title>Profil</title>
 		<%- include("../fragmente/head") %>
-        
-		<link rel="stylesheet" type="text/css" href="/resurse/css/contact.css" />
 		<% if(locals.utilizator) { %>
 		<script>
 
@@ -32,9 +30,8 @@
 			<% if(locals.utilizator) { %>
 			<section>
 				<h2>Profil</h2>
-                <p>Mănânci prea multe prajituri și știi și tu asta!</p>
 				<p><%= locals.raspuns %></p>
-				<img src="/<%- locals.utilizator.poza%>" alt="nu ati incarcat poza de profil" />
+				<img height="100px" width="100px" src="/<%- locals.utilizator.poza%>" alt="nu ati incarcat poza de profil" />
 			</section>
 			<%- include("../fragmente/formular",{action:"/profil"}) %>
 			<% } else { %>

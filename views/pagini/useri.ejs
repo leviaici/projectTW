@@ -17,22 +17,32 @@
 
 		<table id="useri">
 		  <tr>
-			<th>id</th><th>Username</th><th>Nume</th><th>Prenume</th><th>Data</th><th>Rol</th>
+			<th>&nbsp;Id&nbsp;&nbsp;</th><th>&nbsp;Username&nbsp;&nbsp;</th><th>&nbsp;Nume</th><th>&nbsp;Prenume&nbsp;&nbsp;</th><th>&nbsp;&nbsp;Blocat&nbsp;&nbsp;</th><th>&nbsp;&nbsp;Buton</th>
 		  </tr>
 
 		  <% for (var i = 0; i < useri.length; i++) { 
 				if(useri[i].rol=="comun"){ %>
 					<tr>
-					<td><%= useri[i].id %></td>
-					<td><%= useri[i].username %></td>
-					<td><%= useri[i].nume %></td>
-					<td><%= useri[i].email %></td>
-					<%  
-						d=new Date(useri[i].data_adaugare);
-						sir_data=`${d.getDate()}/${d.getMonth()}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
-					%>
-					<td><%=  sir_data %></td>
-					<td><%=  useri[i].rol %></td>
+						<td><%= useri[i].id %></td>
+						<td><%= useri[i].username %></td>
+						<td><%= useri[i].nume %></td>
+						<td><%= useri[i].prenume %></td>
+						<%  
+							// d=new Date(useri[i].data_adaugare);
+							// sir_data=`${d.getDate()}/${d.getMonth()}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+						%>
+						<td><%=  useri[i].blocat %></td>
+						<td>
+							<form action="/blocare" method="POST">
+								<input type="hidden" name="id_utiliz" value="<%= useri[i].id %>">
+								<button type="submit" class="btn btn-primary">Blochează</button>
+							</form><br>
+							<form action="/deblocare" method="POST">
+								<input type="hidden" name="id_utiliz" value="<%= useri[i].id %>">
+								<button type="submit" class="btn btn-primary">Deblochează</button>
+							</form>
+						</td>
+
 					</tr> 
 				<% } %>			
 		  <% } %>
