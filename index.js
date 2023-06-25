@@ -206,7 +206,87 @@ app.get(["/index","/","/home","/login" ], async function(req, res){
                         afisareEroare(rezultat, 2);
                     } else {
                         console.log(rezultat.rows);
-                        res.render("pagini/index", {ip: req.ip, a: 10, b:20, imagini: obGlobal.obImagini.imagini, mesajLogin:sir, produse:rezultat.rows});
+                        client.query("select username, nume, prenume from utilizatori where id in (select distinct user_id from accesari where now()-data_accesare <= interval '10 minutes')",
+                            function(err, rez){
+                                let useriOnline=[];
+                                if(!err && rez.rowCount!=0)
+                                    useriOnline=rez.rows
+                                console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",useriOnline);
+
+                                /////////////// am adaugat aici:
+                                var evenimente=[]
+                                var locatie="";
+                                
+                                request('https://secure.geobytes.com/GetCityDetails?key=7c756203dbb38590a66e01a5a3e1ad96&fqcn=109.99.96.15', //se inlocuieste cu req.ip; se testeaza doar pe Heroku
+                                    function (error, response, body) {
+                                        locatie="Nu se poate detecta pentru moment."
+                                    if(error) {
+                                        
+                                        console.error('eroare geobytes:', error)
+                                    }
+                                    else{
+                                        var obiectLocatie=JSON.parse(body);
+                                        console.log(obiectLocatie);
+                                        locatie=obiectLocatie.geobytescountry+" "+obiectLocatie.geobytesregion
+                                    }
+                        
+                                    //generare evenimente random pentru calendar 
+                                    var texteEvenimente = ["Reducere de inceput", "Promotie weekend", "Festivitate", "Giveaway", "Aniversare"];
+                                    var evenimente = []; 
+
+                                    var dataCurenta = new Date();
+                                    var anCurent = dataCurenta.getFullYear();
+                                    var lunaCurenta = dataCurenta.getMonth();
+
+                                    var primaZiLuni = new Date(anCurent, lunaCurenta, 1);
+                                    while (primaZiLuni.getDay() !== 1) {
+                                    primaZiLuni.setDate(primaZiLuni.getDate() + 1);
+                                    }
+                                    evenimente.push({ data: primaZiLuni, text: texteEvenimente[0] });
+
+                                    var ultimaZiLuna = new Date(anCurent, lunaCurenta + 1, 0).getDate();
+                                    var sambeteAdaugate = 0;
+                                    var duminiciAdaugate = 0;
+                                    for (var zi = ultimaZiLuna; zi >= 1; zi--) {
+                                        var dataZi = new Date(anCurent, lunaCurenta, zi);
+                                        if (dataZi.getDay() === 6 && sambeteAdaugate < 2) {
+                                            evenimente.push({ data: dataZi, text: texteEvenimente[1] });
+                                            sambeteAdaugate++;
+                                        }
+                                        if (dataZi.getDay() === 0 && duminiciAdaugate < 2) {
+                                            evenimente.push({ data: dataZi, text: texteEvenimente[1] });
+                                            duminiciAdaugate++;
+                                        }
+                                        if (sambeteAdaugate === 2 && duminiciAdaugate === 2) {
+                                            break;
+                                        }
+                                    }
+
+                                    var primaZiMiercuri = new Date(anCurent, lunaCurenta, 1);
+                                    while (primaZiMiercuri.getDay() !== 3) {
+                                        primaZiMiercuri.setDate(primaZiMiercuri.getDate() + 1);
+                                    }
+                                    evenimente.push({ data: primaZiMiercuri, text: texteEvenimente[2] });
+
+                                    var aDouaZiJoi = new Date(anCurent, lunaCurenta, 2);
+                                    while (aDouaZiJoi.getDay() !== 4) {
+                                        aDouaZiJoi.setDate(aDouaZiJoi.getDate() + 1);
+                                    }
+                                    evenimente.push({ data: aDouaZiJoi, text: texteEvenimente[3] });
+
+                                    var ziua13 = new Date(anCurent, lunaCurenta, 13);
+                                    evenimente.push({ data: ziua13, text: texteEvenimente[4] });
+
+                                    // console.log("!!!!!!!!!!!!!!!!!!!!",evenimente)
+                                    console.log("inainte",req.session.mesajLogin);
+
+                                    //////sfarsit zona adaugata:
+                                    res.render("pagini/index", {ip: req.ip, imagini:obGlobal.obImagini.imagini, succesLogin:sir, mesajLogin:sir, useriOnline:useriOnline, evenimente:evenimente, locatie:locatie, produse:rezultat.rows});
+
+                            });
+
+                        //adaugat si inchidere functie:
+                        });
                     }
                 })
             }
@@ -217,57 +297,6 @@ app.get(["/index","/","/home","/login" ], async function(req, res){
     // setInterval(carouselRandom, 15000);
 })
 
-app.get(["/","/index","/home","/login"], async function(req, res){
-    // console.log("ceva");
-
-    console.log(req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse))
-
-    let sir=req.session.succesLogin;
-    req.session.succesLogin=null;
-
-    client.query("select username, nume, prenume from utilizatori where id in (select distinct user_id from accesari where now()-data_accesare <= interval '5 minutes')",
-        function(err, rez){
-            let useriOnline=[];
-            if(!err && rez.rowCount!=0)
-                useriOnline=rez.rows
-            console.log(useriOnline);
-
-            /////////////// am adaugat aici:
-            var evenimente=[]
-            var locatie="";
-            
-            request('https://secure.geobytes.com/GetCityDetails?key=7c756203dbb38590a66e01a5a3e1ad96&fqcn=109.99.96.15', //se inlocuieste cu req.ip; se testeaza doar pe Heroku
-                function (error, response, body) {
-                    locatie="Nu se poate detecta pentru moment."
-                if(error) {
-                    
-                    console.error('eroare geobytes:', error)
-                }
-                else{
-                    var obiectLocatie=JSON.parse(body);
-                    console.log(obiectLocatie);
-                    locatie=obiectLocatie.geobytescountry+" "+obiectLocatie.geobytesregion
-                }
-    
-                //generare evenimente random pentru calendar 
-                
-                var texteEvenimente=["Eveniment important", "Festivitate", "Giveaway", "Sedinta foto gratis", "Aniversare"];
-                dataCurenta=new Date();
-                for(i=0;i<texteEvenimente.length;i++){
-                    evenimente.push({data: new Date(dataCurenta.getFullYear(), dataCurenta.getMonth(), Math.ceil(Math.random()*27) ), text:texteEvenimente[i]});
-                }
-                console.log(evenimente)
-                console.log("inainte",req.session.mesajLogin);
-
-                //////sfarsit zona adaugata:
-                res.render("pagini/index", {ip: req.ip, imagini:obGlobal.obImagini.imagini, succesLogin:sir, useriOnline:useriOnline, evenimente:evenimente, locatie:locatie});
-
-        });
-
-    //adaugat si inchidere functie:
-    });
-        
-});
 
 app.get("/galerie_animata", function(req, res){
     client.query("SELECT * FROM poze", function(err, rez) {

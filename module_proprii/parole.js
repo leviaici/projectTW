@@ -1,3 +1,16 @@
+// /**
+//      * @typedef {string} n - numarul de caractere al token-ului generat
+//      * @property {string} init - tipul de conexiune ("init", "render" etc.)
+//      * 
+//      * /
+
+//     /**
+//      * Returneaza un token
+//      *
+//      * @param {n} un token cu n caractere
+//      * @returns {genereazaToken}
+//      */
+
 
 sirAlphaNum="";
 v_intervale=[[48,57],[65,90],[97,122]]

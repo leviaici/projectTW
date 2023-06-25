@@ -190,36 +190,36 @@
                     d=new Date(); //observatie: este data serverului nu a clinetului; codul ejs fiind compilat pe server
                     anCurent=d.getFullYear();
                     lunaCurenta=d.getMonth();
+
                     if(anCurent%400==0 || (anCurent%4==0 && anCurent%100!=0)) nrZile=29;
+
                     let nrZileCalendar=nrZile[lunaCurenta]
                     primaZiLuna=new Date(anCurent, lunaCurenta, 1);
                     ultimaZiLuna=new Date(anCurent, lunaCurenta, nrZileCalendar);
                     ziSaptPrimaZiLuna=(primaZiLuna.getDay()-1+7)%7;
                     ziSaptUltimaZiLuna=(ultimaZiLuna.getDay()-1+7)%7;
-                    for (let i=0;i<ziSaptPrimaZiLuna;i++){
-                    %>
-                    <div></div> 
+                    for (let i=0;i<ziSaptPrimaZiLuna;i++){ %>
+                        <div></div> 
                     <% } 
                     for (let i=1;i<=nrZileCalendar;i++){
                         var obiectEvenimente=null;
                             if(locals.evenimente)
                                 obiectEvenimente=locals.evenimente.find(function(elem){ return elem.data.valueOf()==new Date(anCurent,lunaCurenta,i).valueOf()})
-                        if(obiectEvenimente)
-                        {
-                        %>
+                        if(obiectEvenimente) { %>
                         <div class="zi eveniment" title="<%= obiectEvenimente.text %>"><%= i %></div> 
-                        <%
-                        }
-                        else{
-                        %>
+                        <% } else { %>
                         <div class="zi"><%= i %></div> 
-                        <% } 
-                    } %>
+                        <% }} %>
                     </div>
-                    <%
-                    dataServer=new Date();
-                    sirData=dataServer.getHours()+":"+dataServer.getMinutes()+":"+dataServer.getSeconds()
-                %>
+                    <%  dataServer=new Date();
+                        sirData=dataServer.getHours()+":"+dataServer.getMinutes()+":"+dataServer.getSeconds();  %>
+                <ol><br>
+                    <li><p>Prima zi de luni - Reducere de inceput</p></li>
+                    <li><p>Prima zi de miercuri - Festivitate</p></li>
+                    <li><p>A doua zi de joi - Giveaway</p></li>
+                    <li><p>Ziua de 13 a lunii - Aniversare</p></li>
+                    <li><p>Ultimele 2 weekend-uri - Promotie de weekend</p></li>
+                </ol>
                 <p>Ora server:<span id="data_server"><%= sirData %></span></p>
                 <p>Ora client:<span id="data_client"></span></p>
                 <script>
@@ -235,22 +235,22 @@
                         var data_div=document.getElementById(id_div);
                         if (data_div.innerHTML!="")
                         {
-                            var timp=data_div.innerHTML.split(":")
+                            var timp=data_div.innerHTML.split(":");
                             var dt=new Date(2000,1,15, timp[0],timp[1], timp[2] );//nu conteaza data (am pus valori random pentru an, luna si zi) ci timpul
                         }
                         else
                             var dt=new Date();
-                        dt.setSeconds(dt.getSeconds()+1)
+                        dt.setSeconds(dt.getSeconds()+1);
                         data_div.innerHTML=zero(dt.getHours())+":"+zero(dt.getMinutes())+":"+zero(dt.getSeconds());
                     }
                     function actualizeazaData(){
                         actualizeazaElemData("data_client");
                         actualizeazaElemData("data_server");
                     }
-                    actualizeazaData()
-                    setInterval(actualizeazaData,1000)
+                    actualizeazaData();
+                    setInterval(actualizeazaData,1000);
                 </script>
-                <p>Locatie (acum e pentru un ip oarecare hardcodat in index.js - trebuie pus pe heroku ca sa mearga): <%= locals.locatie %></p>
+                <p>Locatie: <%= locals.locatie %></p>
             </section>
             <section id = "deVanzare">
                 <h2>De vânzare</h2>
@@ -391,8 +391,9 @@
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima sequi qui debitis! Quos doloremque rerum hic dignissimos porro sint ipsa, voluptatum provident enim? Dolorum optio modi, dolor officia assumenda praesentium!</p><br>
             </section>
             <section id = "listaUtilizatori">
-                <p>Aici va fi lista de utilizatori.</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima sequi qui debitis! Quos doloremque rerum hic dignissimos porro sint ipsa, voluptatum provident enim? Dolorum optio modi, dolor officia assumenda praesentium!</p><br>
+                <% for(let u of locals.useriOnline) { %>
+                        <li><%- u.username %>(<%- u.prenume %> <%- u.nume %>)</li>
+                    <% } %>
             </section>
             <section id = "dateUtilizator">
                 <p>Aici vor fi datele de utilizator.</p>
