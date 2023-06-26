@@ -20,7 +20,7 @@ window.addEventListener("load",function(){
 		})
 		.then(function(rasp){ console.log(rasp); x=rasp.json(); console.log(x); return x})
 		.then(function(objson) {
-			console.log(objson);//objson e vectorul de produse
+			console.log(objson); // objson e vectorul de produse
 			let main=document.getElementsByTagName("main")[0];
 			let btn=document.getElementById("cumpara");
 			let counter = 0;
@@ -53,20 +53,15 @@ window.addEventListener("load",function(){
 					vect_ids.sort(function(a, b) {
 						return parseInt(a) - parseInt(b);
 					});
-					// alert(vect_ids);
 
 					var idToDelete = parseInt(this.name);
 
-					// alert(idToDelete);
-					// alert(vect_ids[idToDelete]);
     				vect_ids.splice(idToDelete, 1); // șterge elementul din vector
 					prod_sel = vect_ids.join(",");
-					// alert(prod_sel);
+
 					localStorage.setItem("cos_virtual", prod_sel);
 
-					// Remove the deleted product from the DOM
 					articleToDelete.remove();
-
 				};
 				article.appendChild(btnDelete);
 

@@ -352,11 +352,10 @@ app.post("/produse_cos",function(req, res){
                 res.send(rez.rows);
             }
         });
-}
+    }
     else{
         res.send([]);
     }
- 
 });
 
 cale_qr=__dirname+"/resurse/imagini/qrcode";

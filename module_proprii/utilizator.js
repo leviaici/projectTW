@@ -130,10 +130,11 @@ class Utilizator{
             }, function(err, rez){
             if(err)
                 console.log(err);
-            
-            utiliz.trimiteMail("Bună, " + utiliz.username,"Bine ai venit în comunitatea Levi's shop",
-            `<h1>Bună, ${utiliz.username}!</h1><p><span style='font-size:25px; background:lightblue;'>Bine ai venit</span>  în comunitatea Levi's shop!</p> <p><a href='http://${Utilizator.numeDomeniu}/cod/${utiliz.username}/${token}'>Click aici pentru confirmare</a></p>`,
-            )
+            else {
+                utiliz.trimiteMail("Bună, " + utiliz.username,"Bine ai venit în comunitatea Levi's shop",
+                `<h1>Bună, ${utiliz.username}!</h1><p><span style='font-size:25px; background:lightblue;'>Bine ai venit</span>  în comunitatea Levi's shop!</p> <p><a href='http://${Utilizator.numeDomeniu}/cod/${utiliz.username}/${token}'>Click aici pentru confirmare</a></p>`,
+                )
+            }
         });
     }
 //xjxwhotvuuturmqm

@@ -36,6 +36,8 @@
 					<tr>
 						<th>Produs</th>
 						<th>Preț</th>
+						<th>Categorie</th>
+						<th>Locatie</th>
 						<th>QR</th>
 					</tr>
 				</thead>
@@ -49,13 +51,15 @@
 						<tr>
 							<td><%-  prod.nume %></td>
 							<td><%-  prod.pret %></td>
+							<td><%-  prod.categorie %></td>
+							<td><%-  prod.locatie %></td>
 							<td><img src="<%- locals.protocol%><%- locals.domeniu %>/resurse/imagini/qrcode/<%-  prod.id %>.png"></td>
 						</tr>
 					<% } %>
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="3">Total: <%- suma %></td>
+						<td colspan="5">Total: <%- suma %></td>
 					</tr>
 				</tfoot>
 			</table>
