@@ -5,6 +5,15 @@ const {RolFactory}=require('./roluri.js');
 const crypto=require("crypto");
 const nodemailer=require("nodemailer");
 
+/**
+ * @type {string} - tpiul conexiunii cu baza de date
+ * @type {string} - numele tabelului
+ * @type {string} - parola pt criptare
+ * @type {string} - server-ul de email folosit pt trimiterea email-urilor
+ * @type {number} - lungimea codului pt generarea token-ului
+ * @type {string} - numele sau URL-ul domeniului
+ * */
+
 
 class Utilizator{
     static tipConexiune="local";
@@ -14,6 +23,19 @@ class Utilizator{
     static lungimeCod=64;
     static numeDomeniu="localhost:8080";
     #eroare;
+
+    /**
+     * Creeaza o instanta a clasei Utilizator
+     * @param {number} id - id
+     * @param {string} username - username
+     * @param {string} nume - nume;e
+     * @param {string} prenume - prenumele
+     * @param {string} email - mail-ul userului
+     * @param {string} parola - parola userului
+     * @param {object} rol - rolul userului
+     * @param {string} culoare_chat culoarea mesajului, standard, negru
+     * @param {string} poza - calea pozei de profil
+     * @param {boolean} blocat - daca este sau nu utilizatorul blocat*/
 
     constructor({id, username, nume, prenume, email, parola, rol, culoare_chat="black", poza, blocat=false}={}) {
         this.id=id;
@@ -36,10 +58,15 @@ class Utilizator{
         this.#eroare="";
     }
 
+    /**
+     * @param {string} nume - numele care trebuie verificat
+     * @returns {boolean} - adevarat daca numele este valid, fals altfel
+     * */
     checkName(nume){
         return nume!="" && nume.match(new RegExp("^[A-Z][a-z]+$")) ;
     }
-
+    /**
+     * @param {string} nume - numele care trebuie setat*/
     set setareNume(nume){
         if (this.checkName(nume)) this.nume=nume
         else{
@@ -50,6 +77,10 @@ class Utilizator{
     /*
     * folosit doar la inregistrare si modificare profil
     */
+
+    /**
+     * @param {string} username - username-ul care trebuie setat
+     * */
     set setareUsername(username){
         if (this.checkUsername(username)) this.username=username
         else{
@@ -57,15 +88,26 @@ class Utilizator{
         }
     }
 
+    /**
+     * @param {boolean} blocare - se seteaza blocarea/deblocarea userului
+     * */
     set setareBlocare(blocare){
         if(blocare == false || blocare == true)
             this.blocat=blocare;
     }
 
+    /**
+     * @param {string} username - username-ul care trebuie verificat
+     * @returns {boolean} - adevarat daca username-ul este valid, fals altfel
+     * */
     checkUsername(username){
         return username!="" && username.match(new RegExp("^[A-Za-z0-9#_./]+$")) ;
     }
-
+    
+    /**
+     * @param {string} parola - parola care va fi criptata
+     * @returns {string} - parola criptata
+     * */
     static criptareParola(parola){
         return crypto.scryptSync(parola,Utilizator.parolaCriptare,Utilizator.lungimeCod).toString("hex");
     }
@@ -97,6 +139,12 @@ class Utilizator{
 //xjxwhotvuuturmqm
 
 
+    /**
+     * @param {string} subiect - subiectul email-ului
+     * @param {string} mesajText - continutul text al email-ului
+     * @param {string} mesajHtml - continutul HTML al email-ului
+     * @param {Array<object>} [atasamente=[]] - un vector cu atasamentele email-ului
+     * */
     async trimiteMail(subiect, mesajText, mesajHtml, atasamente=[]){
         var transp= nodemailer.createTransport({
             service: "gmail",
@@ -121,6 +169,10 @@ class Utilizator{
         console.log("trimis mail");
     }
    
+    /**
+    * @param {string} username - The username of the user to retrieve.
+    * @returns {Promise<Utilizator|null>} - A promise that resolves to the retrieved user or null if not found.
+    * */
     static async getUtilizDupaUsernameAsync(username){
         if (!username) return null;
         try{
@@ -143,6 +195,13 @@ class Utilizator{
         }
         
     }
+
+
+    /**
+     * @param {string} username - username
+     * @param {object} obparam - obiectul pasat ca parametru
+     * @param {function} proceseazaUtiliz - o functie callback care proceseaza utulizatorul
+     * */
     static getUtilizDupaUsername (username,obparam, proceseazaUtiliz){
         if (!username) return null;
         let eroare=null;
@@ -162,6 +221,10 @@ class Utilizator{
         });
     }
 
+    /**
+     * @param {Symbol} drept - verifica daca rolul respectiv are dreptul.
+     * @returns {boolean} - returneaza true daca are, false daca nu.
+     * */
     areDreptul(drept){
         return this.rol.areDreptul(drept);
     }
