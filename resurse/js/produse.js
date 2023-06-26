@@ -190,6 +190,58 @@ window.addEventListener("load", function() {
     document.getElementById("sortDescrescNume").onclick=function(){
         sortare(-1);
     }
+    
+    function celMaiScump() {
+        var maxim = -1;
+        var produse=document.getElementsByClassName("produsfinal");
+        for(let prod of produse) {
+            let pret=parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML.toLowerCase());
+            if(pret>maxim)
+                maxim=pret;
+        }
+        return maxim;
+    }
+
+    function celMaiIeftin() {
+        var minim = Infinity;
+        var produse=document.getElementsByClassName("produsfinal");
+        for(let prod of produse) {
+            let pret=parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML.toLowerCase());
+            if(pret<minim)
+                minim=pret;
+        }
+        return minim;
+    }
+
+    function celMaiCel(semn) {
+        var produse=document.getElementsByClassName("produsfinal");
+        var fieMaiMareFieMaiMic=0;
+        if(semn>0) 
+            fieMaiMareFieMaiMic=celMaiIeftin();
+        else fieMaiMareFieMaiMic=celMaiScump();
+
+        for(let prod of produse) {
+            prod.style.display="none";
+            let pret=parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML.toLowerCase());
+            if(semn>0) {
+                if(pret == fieMaiMareFieMaiMic) {
+                    prod.style.display="block";
+                }
+            } else {
+                if(pret == fieMaiMareFieMaiMic) {
+                    prod.style.display="block";
+                }
+            }
+        }
+    }
+
+    document.getElementById("ieftin").onclick=function() {
+        celMaiCel(1);
+    }
+
+    document.getElementById("scump").onclick=function() {
+        celMaiCel(-1);
+    }
 
     this.document.getElementById("sumaproduselor").onclick=function(){
         if(document.getElementById("info-suma"))

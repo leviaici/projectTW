@@ -329,8 +329,9 @@ app.get("/produse",function(req, res){
                     console.log(err);
                     afisareEroare(res, 2);
                 }
-                else
+                else {
                     res.render("pagini/produse", {produse:rez.rows, optiuni:rezCategorie.rows});
+                }
             });
         }
     })
